@@ -1,0 +1,70 @@
+/* ==========================================================================================================
+										Form
+   ========================================================================================================== */
+.btn-link{
+    padding:10px 20px;
+    border-radius: 5px;
+    background: #FFF;
+    color: #2f2f33;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #FFF;
+    -webkit-transition: all .33s ease;
+    -moz-transition: all .33s ease;
+    -o-transition: all .33s ease;
+    -ms-transition: all .33s ease;
+    transition: all .33s ease;
+    &:hover{
+        background: transparent;
+        border: 1px solid #FFF;
+        color: #FFF;
+        text-decoration: none;
+        -webkit-transition: all .33s ease;
+        -moz-transition: all .33s ease;
+        -o-transition: all .33s ease;
+        -ms-transition: all .33s ease;
+        transition: all .33s ease;
+    }
+}
+.btn-primary{
+    color: #fff;
+    background-color: #6f55eb;
+    border-color: #6f55eb;
+    border-radius: 5px;
+}
+.btn-play{
+    cursor: pointer;
+    text-align: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 100%;
+    background: #FFF;
+    color: #2f2f33;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #FFF;
+    -webkit-transition: all .33s ease;
+    -moz-transition: all .33s ease;
+    -o-transition: all .33s ease;
+    -ms-transition: all .33s ease;
+    transition: all .33s ease;
+    .fa{
+        font-size: 22px;
+        color: #1676f2;
+    }
+    &:hover{
+        background: transparent;
+        border: 1px solid #FFF;
+        color: #FFF;
+        text-decoration: none;
+        -webkit-transition: all .33s ease;
+        -moz-transition: all .33s ease;
+        -o-transition: all .33s ease;
+        -ms-transition: all .33s ease;
+        transition: all .33s ease;
+        .fa{
+            color: #fff;
+        }
+    }
+
+}

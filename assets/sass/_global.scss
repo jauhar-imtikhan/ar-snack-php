@@ -1,0 +1,30 @@
+/* ==========================================================================================================
+										Global
+   ========================================================================================================== */
+html {
+    overflow-x: hidden;
+}
+input,textarea{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-shadow: none;
+}
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Poppins", "sans-serif";
+}
+.center{
+    text-align: center;
+}
+.modal-content{
+    border:none;
+    background: transparent;
+}
+.modal-backdrop {
+    background-color: #000;
+}
+.modal-backdrop.show{
+    opacity: 0.8;
+}

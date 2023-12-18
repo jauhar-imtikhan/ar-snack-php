@@ -1,0 +1,266 @@
+.settingbox{
+	    position: fixed;
+    right: 2%;
+    margin-top: -17px;;
+}
+.open_setting{
+	display: inline-block; 
+	margin-right:10px;
+	cursor:pointer; 
+	list-style-type: none;
+	background-color: #54da70;
+	padding: 10px;
+	color: white;
+	border-radius: 3px;
+	font-size: 13px;
+	font-weight: 900;
+}
+.exporthtmlnow{
+	cursor: pointer;
+    list-style-type: none;
+    background-color: #13518c;
+    padding: 10px;
+    color: white;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 900;
+    margin-top: 10px;
+    text-align: center;
+    opacity: 0.5;
+    padding-left: 2px;
+    padding-right: 2px;
+    width: 80px;
+	    display: inline-block;
+}
+
+.editiboxtext {
+    opacity: 0;
+    background-color: rgb(7, 57, 111);
+    font-family: cursive;
+    font-size: 13px;
+    color: white;
+    position: fixed;
+    top: 8%;
+    width: 250px;
+    text-align: center;
+    padding-top: 20px;
+    height: 100%;
+	left: 0;
+}
+.moveeditordown{
+	position: absolute;
+	z-index: 9999;
+	top: 0;
+	right: 0px;
+	padding: 10px;
+	background-color: #246eaf;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-radius: 2px;
+	cursor: pointer;
+}
+.editingtexttext{
+	position: absolute;
+	left: 0px;
+	top: 50px;
+	background-color: #246eaf;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: #fcc000;
+}
+.textsettingsadvanced {
+    width: 100%;
+    max-width: 220px;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#fonr_family_text {
+    -webkit-appearance: button;
+    -webkit-border-radius: 2px;
+    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    -webkit-padding-end: 20px;
+    -webkit-padding-start: 2px;
+    -webkit-user-select: none;
+    background-position: 97% center;
+    background-repeat: no-repeat;
+    border: 1px solid #AAA;
+    color: #555;
+    font-size: inherit;
+    margin: 20px;
+    overflow: hidden;
+    padding: 5px 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    margin: 0;
+    display: inherit;
+    max-width: 253px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#textfontsize {
+    padding: 2px;
+    border-radius: 3px;
+    margin: 10px;
+    width: 100px;
+    color: black;
+    background-color: #f3f3f3;
+    padding-left: 5px;
+    padding-right: 10px;
+    display: inherit;
+    width: 100%;
+    max-width: 256px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.button.colorpickerwebjstrigger {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.moveeditorup {
+    position: absolute;
+    bottom: 0;
+    left: 30px;
+    padding: 10px;
+    background-color: #246eaf;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.settngholder.nav {
+    width: 100%;
+    background-color: #07396f;
+    z-index: 99999;
+    display: inline-block;
+    height: 55px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.textheading {
+    float: left;
+    margin-left: 6%;
+    font-family: sans-serif;
+    color: #fcc000;
+}
+.moveeditorupnavbox {
+    float: left;
+    position: absolute;
+    top: 2px;
+    /* padding: 10px; */
+    background-color: #13518c;
+    color: white;
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+.moveeditorupnavbox strong {
+    font-size: 25px;
+    font-weight: bold;
+    /* margin-top: 10px; */
+    position: absolute;
+    left: 10px;
+    top: 0px;
+}
+.moveeditordownnavbox {
+    position: fixed;
+    top: -5px;
+    background-color: #13518c;
+    color: white;
+    margin: 10px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    cursor: pointer;
+}
+.moveeditordownnavbox strong{
+	font-size: 25px;
+    font-weight: bold;
+    /* margin-top: 10px; */
+    position: absolute;
+    left: 19px;
+    top: 7px;
+}
+li.savebtn {
+    cursor: pointer;
+    list-style-type: none;
+    background-color: rgb(19, 81, 140);
+    padding: 10px;
+    color: white;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 900;
+    text-align: center;
+    opacity: 1;
+    width: 191px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+li.removeelbtn {
+    cursor: pointer;
+    list-style-type: none;
+    background-color: #cc4949;
+    padding: 10px;
+    color: white;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 900;
+    text-align: center;
+    opacity: 1;
+    width: 78px;
+    display: inline-block;
+    /* margin-left: 10px; */
+}
+li.cancelbtn {
+    cursor: pointer;
+    list-style-type: none;
+    background-color: #2aa5e0;
+    padding: 10px;
+    color: white;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 900;
+    text-align: center;
+    opacity: 1;
+    width: 78px;
+    display: inline-block;
+    margin-left: 13px;
+}
+li.save_current {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+    list-style-type: none;
+    background-color: #fcc000;
+    padding: 10px;
+    color: white;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 900;
+}
+input#linkvaueconadad {
+    border-radius: 3px;
+    margin: 10px;
+    color: black;
+    background-color: #f3f3f3;
+    width: 100%;
+    max-width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+}

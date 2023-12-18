@@ -1,0 +1,37 @@
+/* ==========================================================================================================
+										Header
+   ========================================================================================================== */
+.header-fixed{
+    background: transparent;
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+    top:0;
+}
+.header-fixed.fixed{
+    background: #584ed1;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+#na-header-wrapper{
+    width: 100%;
+    background: url("../img/header-bg.jpg");
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: cover;
+    height: 850px;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    .navbar{
+        padding:30px 0px;
+    }
+}
+
+#logo {
+    font-size: 36px;
+    position: relative;
+    font-weight: bold;
+    &:hover{
+        text-decoration: none;
+    }
+}
