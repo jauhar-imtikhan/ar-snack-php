@@ -48,6 +48,60 @@ class Restauthcontroller extends RestController
             $password = $this->input->post('password', true);
 
             $user = $this->user_m->findFirst($email, 'email');
+
+            if ($user) {
+                if ($user['status'] == 1) {
+                    if (password_verify($password, $user['password'])) {
+
+                        if ($user['role'] === 'administrator') {
+                            $data = [
+                                'user_id' => $user['user_id'],
+                            ];
+                            $this->session->set_userdata($data);
+                            $this->response([
+                                'status' => 200,
+                                'message' => 'Login Success',
+                                'url' => base_url('admin')
+                            ], RestController::HTTP_OK);
+                        } elseif ($user['role'] === 'user') {
+                            $data = [
+                                'user_id' => $user['user_id'],
+                            ];
+                            $this->session->set_userdata($data);
+                            $this->response([
+                                'status' => 200,
+                                'message' => 'Login Success',
+                                'url' => base_url('user')
+                            ], RestController::HTTP_OK);
+                        } else {
+                            $data = [
+                                'user_id' => $user['user_id'],
+                            ];
+                            $this->session->set_userdata($data);
+                            $this->response([
+                                'status' => 200,
+                                'message' => 'Login Success',
+                                'url' => base_url('member')
+                            ], RestController::HTTP_OK);
+                        }
+                    } else {
+                        $this->response([
+                            'status' => 401,
+                            'message' => 'Password atau Email salah'
+                        ], RestController::HTTP_UNAUTHORIZED);
+                    }
+                } else {
+                    $this->response([
+                        'status' => 401,
+                        'message' => 'Anda belum aktivasi akun, Silahkan aktivasi terlebih dahulu'
+                    ], RestController::HTTP_UNAUTHORIZED);
+                }
+            } else {
+                $this->response([
+                    'status' => 401,
+                    'message' => 'Akun tidak ditemukan'
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
         }
     }
 
@@ -83,6 +137,8 @@ class Restauthcontroller extends RestController
             $email = $this->input->post('email', true);
             $nowa = $this->input->post('nowhatsapp', true);
             $pass = $this->input->post('password', true);
+            $role = $this->input->post('role', true);
+
 
             $token = "AR_SNACK_" . generateRandomString(64);
 
@@ -93,7 +149,9 @@ class Restauthcontroller extends RestController
                 'no_whatsapp' => $nowa,
                 'email' => $email,
                 'password' => password_hash($pass, PASSWORD_DEFAULT),
-                'created_at' => time()
+                'created_at' => time(),
+                'status' => 0,
+                'role' => $role
             ];
 
             $data_token = [
@@ -193,6 +251,8 @@ class Restauthcontroller extends RestController
             $this->response($msg, 404);
         }
     }
+
+
 
     private function _sendEmail($email, $subject, $message, $msg, $links)
     {

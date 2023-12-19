@@ -39,6 +39,14 @@ class Migration_create_table_users extends CI_Migration
                 'constraint' => 1,
                 'null' => TRUE,
             ),
+            'role' => array(
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+            ),
+            'img_profile' => array(
+                'type' => 'VARCHAR',
+                'constraint' => 128,
+            ),
             'created_at' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '100',

@@ -1,7 +1,10 @@
 <?php
+
+
 if (!function_exists('set_json')) {
     function set_json($data, $code)
     {
+        /** @var \CodeIgniter $ci */
         $ci = get_instance();
         if ($code == null) {
             $result = $ci->output
@@ -22,6 +25,7 @@ if (!function_exists('set_json')) {
 if (!function_exists('user_login')) {
     function user_login($id)
     {
+        /** @var \CodeIgniter $ci */
         $ci = get_instance();
         $user = $ci->db->get_where('user', ['user_id' => $id])->row_array();
         return $user;
@@ -29,6 +33,7 @@ if (!function_exists('user_login')) {
 }
 function check_already_login()
 {
+    /** @var \CodeIgniter $ci */
     $ci = get_instance();
     $user_session = $ci->session->userdata('user_id');
     if ($user_session) {
@@ -37,18 +42,20 @@ function check_already_login()
 }
 function check_not_login()
 {
+    /** @var \CodeIgniter $ci */
     $ci = get_instance();
     $user_session = $ci->session->userdata('user_id');
     if (!$user_session) {
-        redirect('auth');
+        redirect('login');
     }
 }
 
 function user_login()
 {
+    /** @var \CodeIgniter $ci */
     $ci = get_instance();
     $user_session = $ci->session->userdata('user_id');
-    $user = $ci->db->get_where('user', ['user_id' => $user_session])->row_array();
+    $user = $ci->db->get_where('tbl_users', ['user_id' => $user_session])->row_array();
     return $user;
 }
 
@@ -79,4 +86,41 @@ function generaterandomint($length = 6)
     }
 
     return $randomString;
+}
+
+
+function countUser()
+{
+    /** @var \CodeIgniter $ci */
+    $ci = get_instance();
+    $sql = "SELECT COUNT('user_id') AS total_user FROM tbl_users";
+    $user = $ci->db->query($sql)->row();
+    return $user->total_user;
+}
+
+function countPaymentTotal()
+{
+    /** @var \CodeIgniter $ci */
+    $ci = get_instance();
+    $sql = "SELECT COUNT('payment_id') AS total_payment FROM tbl_payment";
+    $user = $ci->db->query($sql)->row();
+    return $user->total_payment;
+}
+
+
+
+
+
+function countTotalPendapatan()
+{
+    /** @var \CodeIgniter $ci */
+    $ci = get_instance();
+    $sql = "SELECT SUM(total_payment) AS total FROM tbl_payment";
+    $total = $ci->db->query($sql)->row();
+
+    if ($total->total == null) {
+        return 0;
+    } else {
+        return $total->total;
+    }
 }

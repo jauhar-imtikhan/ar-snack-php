@@ -1,32 +1,7 @@
 <div class="navbar-custom">
     <ul class="list-unstyled topnav-menu float-right mb-0">
 
-        <li class="dropdown d-none d-lg-block">
-            <a class="nav-link dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="<?= base_url('assets/admin-') ?>assets/images/flags/us.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">English <i class="mdi mdi-chevron-down"></i> </span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <img src="<?= base_url('assets/admin-') ?>assets/images/flags/spain.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Spanish</span>
-                </a>
 
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <img src="<?= base_url('assets/admin-') ?>assets/images/flags/italy.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Italian</span>
-                </a>
-
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <img src="<?= base_url('assets/admin-') ?>assets/images/flags/french.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">French</span>
-                </a>
-
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <img src="<?= base_url('assets/admin-') ?>assets/images/flags/russia.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Russian</span>
-                </a>
-            </div>
-        </li>
 
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -94,40 +69,34 @@
 
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="<?= base_url('assets/admin-') ?>assets/images/users/avatar-1.jpg" alt="user-image" class="d-lg-none d-md-none mt-3 rounded-circle">
-                <img src="<?= base_url('assets/admin-') ?>assets/images/users/avatar-1.jpg" alt="user-image" class="d-none d-lg-inline-block d-md-inline-block  rounded-circle">
+                <img src="<?= base_url('uploads/user-profile/') . user_login()['img_profile'] ?>" alt="user-image" class="d-lg-none d-md-none mt-3 rounded-circle">
+                <img src="<?= base_url('uploads/user-profile/') . user_login()['img_profile'] ?>" alt="user-image" class="d-none d-lg-inline-block d-md-inline-block  rounded-circle">
                 <span class="pro-user-name ml-1">
-                    Maxine K <i class="mdi mdi-chevron-down"></i>
+                    <?= ucfirst(user_login()['nama_lengkap']) ?><i class="mdi mdi-chevron-down"></i>
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                 <!-- item-->
                 <div class="dropdown-header noti-title">
-                    <h6 class="text-overflow m-0">Welcome !</h6>
+                    <h6 class="text-overflow m-0">Selamat Datang</h6>
                 </div>
 
                 <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                <a href="<?= site_url('profile') ?>" class="dropdown-item notify-item">
                     <i class="mdi mdi-account-outline"></i>
                     <span>Profile</span>
                 </a>
 
                 <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                <a href="<?= site_url('settings') ?>" class="dropdown-item notify-item">
                     <i class="mdi mdi-settings-outline"></i>
                     <span>Settings</span>
-                </a>
-
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <i class="mdi mdi-lock-outline"></i>
-                    <span>Lock Screen</span>
                 </a>
 
                 <div class="dropdown-divider"></div>
 
                 <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                <a href="<?= site_url('logout') ?>" class="dropdown-item notify-item">
                     <i class="mdi mdi-logout-variant"></i>
                     <span>Logout</span>
                 </a>

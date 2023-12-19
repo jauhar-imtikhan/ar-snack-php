@@ -44,9 +44,9 @@ class User_m extends CI_Model
         }
     }
 
-    public function update(string $id, array $data): bool
+    public function update(string $field, string $id, array $data): bool
     {
-        $this->db->where('user_id', $id);
+        $this->db->where($field, $id);
         $this->db->update($this->tbl, $data);
         if ($this->db->affected_rows() > 0) {
             return true;

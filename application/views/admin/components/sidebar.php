@@ -5,7 +5,7 @@
         <li class="menu-title">Navigation</li>
 
         <li>
-            <a href="index.html">
+            <a href="<?= site_url('admin') ?>">
                 <i class="ti-home"></i>
                 <span> Dashboard </span>
             </a>

@@ -11,11 +11,10 @@ application/logs/*
 composer.lock
 tests/mocks/database/ci_test.sqlite
 
-user_guide_src/build/*
-user_guide_src/cilexer/build/*
-user_guide_src/cilexer/dist/*
-user_guide_src/cilexer/pycilexer.egg-info/*
+
 /vendor/
+.env
+/node_modules
 
 # IDE Files
 #-------------------------

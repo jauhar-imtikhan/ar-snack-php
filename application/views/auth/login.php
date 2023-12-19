@@ -127,7 +127,10 @@
                             Toast.fire({
                                 icon: 'success',
                                 title: res.message
+                            }).then((success) => {
+                                window.location.href = res.url
                             })
+
                         }
                     },
                     complete: function() {
@@ -138,6 +141,13 @@
                         if (err.status == 422) {
                             $.each(err.responseJSON.errors, function(key, value) {
                                 $('.' + key).html(value);
+                            })
+                        }
+
+                        if (err.status == 401) {
+                            Toast.fire({
+                                icon: 'error',
+                                title: err.responseJSON.message
                             })
                         }
                     }

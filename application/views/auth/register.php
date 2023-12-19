@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Halaman Register | AR SNACK </title>
+    <title>Register | AR SNACK </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="pusat snack eceran dan grosir" name="description" />
     <meta content="jauhar imtikhan" name="author" />
@@ -66,6 +66,7 @@
                                     <span class="text-danger email"></span>
                                 </div>
                                 <div class="form-group ">
+                                    <label for="password">Password</label>
                                     <div class="input-group">
                                         <input class="form-control" type="password" name="password" id="password" placeholder="Masukan Passowrd Anda">
                                         <div class="input-group-prepend">
@@ -73,6 +74,20 @@
                                         </div>
                                     </div>
                                     <span class="text-danger password"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="useroption">Daftar Sebagai</label>
+                                    <div class="d-flex " style="gap: 10px;">
+                                        <div class="form-group form-check">
+                                            <input type="radio" name="role" value="user" class="form-check-input" id="useroption">
+                                            <label class="form-check-label" for="useroption">User</label>
+                                        </div>
+                                        <div class="form-group form-check">
+                                            <input type="radio" name="role" value="member" class="form-check-input" id="memberoption">
+                                            <label class="form-check-label" for="memberoption">Member</label>
+                                        </div>
+
+                                    </div>
                                 </div>
                                 <div class="text-center mb-3">
                                     <button id="btn-register" class="btn btn-primary btn-block" type="submit"> Daftar </button>
@@ -117,6 +132,21 @@
                 }
             });
             $(document).ready(function() {
+                const exclusiveCheckboxes = document.querySelectorAll('.form-check-input');
+
+                exclusiveCheckboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        // Jika checkbox ini dicentang, nonaktifkan checkbox lainnya
+                        if (this.checked) {
+                            exclusiveCheckboxes.forEach(otherCheckbox => {
+                                if (otherCheckbox !== this) {
+                                    otherCheckbox.checked = false;
+                                }
+                            });
+                        }
+                    });
+                });
+
                 $('#showpass').click(function(e) {
                     let icons = e.target.classList
                     if (icons.value == 'fas fa-eye') {
@@ -142,14 +172,21 @@
                             $('#btn-register').attr('disabled', 'disabled');
                         },
                         success: function(data) {
-                            console.log(data);
+                            // console.log(data);
 
-                            if (data.code == 201) {
+                            if (data.status == 201) {
 
                                 Toast.fire({
                                     icon: "success",
                                     title: data.message
                                 });
+                            }
+                            if (data.status == 200) {
+                                Toast.fire({
+                                    icon: "success",
+                                    title: data.message
+                                })
+
                             }
                         },
                         complete: function() {
