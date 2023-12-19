@@ -46,7 +46,7 @@ class Migration_create_table_template_mail extends CI_Migration
                 'type' => 'VARCHAR',
                 'constraint' => 100,
             ),
-            'btn_header' => array(
+            'btn_name' => array(
                 'type' => 'VARCHAR',
                 'constraint' => 100,
             ),

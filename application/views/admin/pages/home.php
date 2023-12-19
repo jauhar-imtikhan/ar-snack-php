@@ -1,7 +1,7 @@
 <div class="header float-right">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active"><a href="<?= site_url('admin') ?>">Home</a></li>
+            <li class="breadcrumb-item active"><a href="<?= site_url('admin') ?>" aria-current="page">Home</a></li>
 
         </ol>
     </nav>
@@ -26,7 +26,7 @@
 
             <div class="col-xl-3 col-sm-6 widget-inline-box">
                 <div class="text-center p-3">
-                    <h2 class="mt-2"><i class="text-teal mdi mdi-airplay mr-2"></i> <b><?= Rp(countTotalPendapatan()) ?></b></h2>
+                    <h2 class="mt-2"> <b><?= Rp(countTotalPendapatan()) ?></b></h2>
                     <p class="text-muted mb-0">Total Pendapatan</p>
                 </div>
             </div>

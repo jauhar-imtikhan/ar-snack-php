@@ -69,7 +69,7 @@
 
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="<?= base_url('uploads/user-profile/') . user_login()['img_profile'] ?>" alt="user-image" class="d-lg-none d-md-none mt-3 rounded-circle">
+                <img src="<?= base_url('uploads/user-profile/') . user_login()['img_profile'] ?>" alt="user-image" class="d-lg-none d-md-none mt-3 d-block rounded-circle">
                 <img src="<?= base_url('uploads/user-profile/') . user_login()['img_profile'] ?>" alt="user-image" class="d-none d-lg-inline-block d-md-inline-block  rounded-circle">
                 <span class="pro-user-name ml-1">
                     <?= ucfirst(user_login()['nama_lengkap']) ?><i class="mdi mdi-chevron-down"></i>
@@ -146,10 +146,10 @@
         </li>
 
         <li class="d-none d-sm-block">
-            <form class="app-search">
+            <form class="app-search" action="" method="post">
                 <div class="app-search-box">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search...">
+                        <input type="text" class="form-control" name="search" id="search" placeholder="Search...">
                         <div class="input-group-append">
                             <button class="btn" type="submit">
                                 <i class="fas fa-search"></i>

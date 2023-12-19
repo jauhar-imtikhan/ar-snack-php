@@ -19,7 +19,7 @@ class Migration_create_table_users extends CI_Migration
                 'constraint' => '100',
             ),
             'no_whatsapp' => array(
-                'type' => 'INT',
+                'type' => 'VARCHAR',
                 'constraint' => 15
             ),
             'email' => array(

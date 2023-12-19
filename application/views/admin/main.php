@@ -13,12 +13,30 @@ $data_toko = $this->db->get_where('tbl_config_toko')->row_array();
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="shortcut icon" href="<?= base_url('assets/admin-') ?>assets/images/favicon.ico">
-    <link href="<?= base_url('assets/admin-') ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
+    <link href="<?= base_url('assets/admin-') ?>assets/css/bootstrap-dark.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
     <link href="<?= base_url('assets/admin-') ?>assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('assets/admin-') ?>assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet" />
+    <link href="<?= base_url('assets/admin-') ?>assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="app-stylesheet" />
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-datepicker/bootstrap-datepicker.css" rel="stylesheet">
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/switchery/switchery.min.css" rel="stylesheet" type="text/css" />
+
+
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('assets/admin-') ?>assets/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+
+
     <?php include APPPATH . '\third_party\config_theme.php' ?>
 </head>
 
@@ -121,11 +139,38 @@ $data_toko = $this->db->get_where('tbl_config_toko')->row_array();
     </a>
 
     <!-- Vendor js -->
+
     <script src="<?= base_url('assets/admin-') ?>assets/js/vendor.min.js"></script>
 
-    <!-- App js -->
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/datatables/dataTables.buttons.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/datatables/dataTables.keyTable.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/datatables/dataTables.select.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/jszip/jszip.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/pdfmake/pdfmake.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/pdfmake/vfs_fonts.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/datatables/buttons.html5.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/datatables/buttons.print.min.js"></script>
+
+    <!-- Responsive examples -->
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/datatables/dataTables.responsive.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/datatables/responsive.bootstrap4.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/select2/select2.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/moment/moment.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/switchery/switchery.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/parsleyjs/parsley.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-filestyle2/bootstrap-filestyle.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/clockpicker/bootstrap-clockpicker.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/libs/summernote/summernote-bs4.min.js"></script>
+    <script src="<?= base_url('assets/admin-') ?>assets/js/pages/form-advanced.init.js"></script>
     <script src="<?= base_url('assets/admin-') ?>assets/js/app.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
         const Toast = Swal.mixin({
             toast: true,

@@ -12,10 +12,15 @@
         </li>
 
         <li>
-            <a href="ui-elements.html">
-                <i class="ti-paint-bucket"></i>
-                <span> UI Elements </span>
-                <span class="badge badge-primary float-right">11</span>
+            <a href="<?= site_url('kategori') ?>">
+                <i class="ti-package"></i>
+                <span> Kategori </span>
+            </a>
+        </li>
+        <li>
+            <a href="<?= site_url('admin/produk') ?>">
+                <i class="fas fa-box"></i>
+                <span> Produk </span>
             </a>
         </li>
 

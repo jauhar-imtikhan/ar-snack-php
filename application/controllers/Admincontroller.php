@@ -6,6 +6,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property Session session
  * @property Upload upload
  * @property User_m user_m
+ * @property Product_m Product_m
+ * @property Configtoko_m Configtoko_m
+ * @property Kategori_m Kategori_m
+ * @property Form_validation form_validation
  */
 
 class Admincontroller extends CI_Controller
@@ -14,6 +18,9 @@ class Admincontroller extends CI_Controller
     {
         parent::__construct();
         check_not_login();
+        $this->load->model('Product_m');
+        $this->load->model('Kategori_m');
+        $this->load->model('Configtoko_m');
     }
 
     public function index()
@@ -27,12 +34,51 @@ class Admincontroller extends CI_Controller
 
     public function profile()
     {
-        $this->load->model('user_m');
+
         $data_user = $this->user_m->findFirst(user_login()['user_id'], 'user_id');
         $data = [
             'title' => 'Profile',
             'page' => 'profile',
             'data_user' => $data_user
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function kategori()
+    {
+        $data = [
+            'title' => 'Kategori',
+            'page' => 'kategori'
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function produk()
+    {
+        $data = [
+            'title' => 'Produk',
+            'page' => 'produk'
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function add_produk()
+    {
+        $data = [
+            'title' => 'Tambah Produk',
+            'page' => 'add_produk'
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function settings()
+    {
+
+        $data_toko = $this->Configtoko_m->findFirst('config_toko_id', 1);
+        $data = [
+            'title' => 'Setting',
+            'page' => 'setting',
+            'data_toko' => $data_toko
         ];
         $this->load->view('admin/main', $data);
     }
@@ -49,7 +95,7 @@ class Admincontroller extends CI_Controller
         $this->load->library('upload', $config);
 
         if ($this->upload->do_upload('img_profile')) {
-            $this->load->model('user_m');
+
             $users = $this->user_m->findFirst(user_login()['user_id'], 'user_id');
             if ($users['img_profile'] !== $_FILES['img_profile']['name']) {
                 unlink(FCPATH . 'uploads/user-profile/' . $users['img_profile']);
@@ -80,5 +126,20 @@ class Admincontroller extends CI_Controller
             ];
             set_json($data, 400);
         }
+    }
+
+
+
+    public function update_product($id)
+    {
+        $products = $this->Product_m->findViewById($id);
+        $kategpories = $this->Kategori_m->findMany();
+        $data = [
+            'title' => 'Edit Produk',
+            'page' => 'edit_produk',
+            'products' => $products,
+            'kategories' => $kategpories
+        ];
+        $this->load->view('admin/main', $data);
     }
 }
