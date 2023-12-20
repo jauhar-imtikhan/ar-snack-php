@@ -73,6 +73,17 @@ class Product_m extends CI_Model
         }
     }
 
+    public function updateDetail(string $id, array $data): bool
+    {
+        $this->db->where('product_detail_id', $id);
+        $this->db->update($this->tbl_detail, $data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function update(string $key, string $id, array $data): bool
     {
         $this->db->where($key, $id);
@@ -90,6 +101,19 @@ class Product_m extends CI_Model
         $this->db->where($key, $id);
 
         $this->db->delete($this->tbl);
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteDetail(string $key, string $id): bool
+    {
+        $this->db->where($key, $id);
+
+        $this->db->delete($this->tbl_detail);
 
         if ($this->db->affected_rows() > 0) {
             return true;

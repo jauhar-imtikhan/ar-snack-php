@@ -34,6 +34,7 @@ $route['update_password']['post'] = 'restadmincontroller/update_password';
 $route['admin/create_product']['post'] = 'restadmincontroller/create_product';
 $route['admin/get_product']['get'] = 'restadmincontroller/get_product';
 $route['admin/update_product']['post'] = 'restadmincontroller/pro_update_product';
+$route['admin/hapus_produk/(:any)/(:any)']['get'] = 'restadmincontroller/delete_product/$1/$2';
 
 
 // Route Of Auth Rest API

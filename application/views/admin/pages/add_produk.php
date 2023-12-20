@@ -2,6 +2,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?= site_url('admin') ?>">Home</a></li>
+            <li class="breadcrumb-item"><a href="<?= site_url('admin/produk') ?>">Produk</a></li>
             <li class="breadcrumb-item active"><a href="<?= site_url('admin/tambah_produk') ?>" aria-current="page">Tambah Produk</a></li>
 
         </ol>
@@ -134,7 +135,7 @@
                     $('#btnSubmit').attr('disabled', 'disabled');
                 },
                 success: function(res) {
-                    console.log(res);
+                    // console.log(res);
                     if (res.status == 200) {
                         Toast.fire({
                             icon: 'success',

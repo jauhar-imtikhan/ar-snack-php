@@ -171,6 +171,7 @@ $data_toko = $this->db->get_where('tbl_config_toko')->row_array();
     <script src="<?= base_url('assets/admin-') ?>assets/libs/summernote/summernote-bs4.min.js"></script>
     <script src="<?= base_url('assets/admin-') ?>assets/js/pages/form-advanced.init.js"></script>
     <script src="<?= base_url('assets/admin-') ?>assets/js/app.min.js"></script>
+
     <script type="text/javascript">
         const Toast = Swal.mixin({
             toast: true,
@@ -183,6 +184,7 @@ $data_toko = $this->db->get_where('tbl_config_toko')->row_array();
                 toast.onmouseleave = Swal.resumeTimer;
             }
         });
+
         $('#light-mode-switch').change(function(e) {
             if ($(this).prop('checked')) {
                 db.ref('field_theme/theme_mode').set("light");
@@ -196,6 +198,13 @@ $data_toko = $this->db->get_where('tbl_config_toko')->row_array();
                 db.ref('field_theme/theme_mode').set("dark");
             }
         })
+
+        function Rp(angka) {
+            var reverse = angka.toString().split('').reverse().join(''),
+                ribuan = reverse.match(/\d{1,3}/g);
+            ribuan = ribuan.join('.').split('').reverse().join('');
+            return 'Rp ' + ribuan;
+        }
     </script>
 </body>
 

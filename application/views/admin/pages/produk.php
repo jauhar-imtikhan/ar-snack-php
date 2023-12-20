@@ -43,7 +43,7 @@
     $(document).ready(function() {
         let table = $('#tableProduct').DataTable({
             "paging": true,
-            "lengthChange": true,
+            "lengthChange": false,
             "searching": true,
             "ordering": true,
             "info": true,
@@ -51,7 +51,6 @@
             "responsive": true,
 
         })
-
         getProduct()
 
         function getProduct() {
@@ -79,7 +78,10 @@
                                         <button type="button" class="btn btn-sm btn-danger" data-id="${datas.id}" onclick="hapusProduct(this)"  data-toggle="tooltip" data-placement="top" title="Hapus Produk"><i class="fas fa-trash"></i></button>
                                     </div>`;
 
-                        dt = [i + 1, datas.nama, datas.harga_jual, datas.harga_beli, datas.kategori, btn]
+                        let harga_jual = parseFloat(datas.harga_jual)
+                        let harga_beli = parseFloat(datas.harga_beli)
+
+                        dt = [i + 1, datas.nama, Rp(harga_jual), Rp(harga_beli), datas.kategori, btn]
                         table.rows.add([dt]).draw();
                     })
                 },
@@ -89,5 +91,82 @@
             })
         }
 
+
+
     })
+
+    function hapusProduct(el) {
+        let id = $(el).data('id')
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger mx-2"
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Apakah anda yakin?",
+            text: "Anda tidak bisa mengembalikan data ini, jika di hapus!",
+            icon: "warning",
+            inputPlaceholder: "Masukan Nama Produk",
+            input: "text",
+            inputAttributes: {
+                autocapitalize: "off"
+            },
+            showCancelButton: true,
+            confirmButtonText: "Ya, Saya yakin!",
+            cancelButtonText: "Tidak, Batalkan!",
+            reverseButtons: true,
+            allowOutsideClick: false,
+            showLoaderOnConfirm: true,
+            preConfirm: async (text) => {
+                try {
+
+
+                    const url = "<?= site_url('admin/hapus_produk/') ?>" + id + "/" + text;
+                    const ReqBody = {
+                        id: id,
+                        id_confirm: text
+                    }
+                    const response = await fetch(url)
+                    if (!response.ok) {
+                        if (response.status == 404) {
+                            return Swal.showValidationMessage(`${JSON.stringify("Url Tidak Ditemukan")}`);
+
+                        } else if (response.status == 401) {
+                            return Swal.showValidationMessage(`${JSON.stringify("Nama Produk tidak Sesuai")}`);
+                        }
+                    }
+
+                    return text
+                } catch (error) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: error
+                    })
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(result);
+                Toast.fire({
+                    icon: 'success',
+                    title: `Berhasil Menghapus Produk Dengan Nama ${result.value}`,
+                }).then((success) => {
+                    location.reload()
+                })
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                Toast.fire({
+                    icon: 'info',
+                    title: 'Produk Tidak Jadi Dihapus',
+                }).then((success) => {
+                    location.reload()
+                })
+            }
+        });
+    }
 </script>

@@ -35,12 +35,17 @@
                     </div>
                     <div class="form-group">
                         <label for="hargajualproduk">Harga Jual Produk</label>
-                        <input type="text" value="<?= $products['harga_jual'] ?>" name="hargajualproduk" id="hargajualproduk" class="form-control">
+                        <input type="text" value="<?= Rp($products['harga_jual']) ?>" name="hargajualproduk" id="hargajualproduk" class="form-control">
 
                     </div>
                     <div class="form-group">
                         <label for="hargabeliproduk">Harga Beli Produk</label>
-                        <input type="text" value="<?= $products['harga_beli'] ?>" name="hargabeliproduk" id="hargabeliproduk" class="form-control">
+                        <input type="text" value="<?= Rp($products['harga_beli']) ?>" name="hargabeliproduk" id="hargabeliproduk" class="form-control">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="stockproduk">Stok Produk</label>
+                        <input type="text" value="<?= $products['stock_produk'] ?>" name="stockproduk" id="stockproduk" class="form-control">
 
                     </div>
                     <div class="form-group">
@@ -77,17 +82,19 @@
                             ?>
                         </div>
                         <div class="custom-file">
-                            <input type="file" name="galleryproduct[]" maxlength="5" class="custom-file-input" id="galleryproduct" multiple>
+                            <input type="file" name="galleryproduct[]" class="custom-file-input" id="galleryproduct" multiple>
                             <label class="custom-file-label" for="galleryproduct" data-browse="Cari">Pilih File</label>
                         </div>
-
                     </div>
+
                     <div class="form-group">
+                        <small class="text-danger">*Maksimal upload foto produk 5Mb</small>
                         <button id="btnSubmit" class="btn btn-primary float-right" type="submit">Update</button>
                     </div>
                 </form>
             </div>
         </div>
+        <div id="opener2"></div>
     </div>
 </div>
 
@@ -129,55 +136,45 @@
 
         $('.form-editproduk').submit(function(e) {
             e.preventDefault();
-            const form = new FormData(this);
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-success",
-                    cancelButton: "btn btn-danger mx-2"
-                },
-                buttonsStyling: false
-            });
-            swalWithBootstrapButtons.fire({
-                title: "Apakah anda yakin?",
-                text: "Ingin menyimpan perubahan!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Ya, Saya yakin!",
-                cancelButtonText: "Tidak, Batalkan!",
-                reverseButtons: true,
-                allowOutsideClick: false,
 
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "<?= site_url('admin/update_product') ?>",
-                        method: 'post',
-                        data: form,
-                        processData: false,
-                        contentType: false,
-                        cache: false,
-                        success: function(res) {
-                            console.log(res);
-                        },
-                        error: function(err) {
-                            if (err.status == 304) {
-                                Toast.fire({
-                                    icon: 'error',
-                                    title: err.responseJSON.message
-                                })
-                            }
-                        }
-                    })
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    Toast.fire({
-                        icon: 'info',
-                        title: 'Data tidak jadi di hapus!'
-                    })
+            $.ajax({
+                url: "<?= site_url('admin/update_product') ?>",
+                method: 'post',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(res) {
+                    console.log(res);
+                    if (res.status == 200) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.message
+                        })
+                    }
+                },
+                error: function(err) {
+                    // console.log(err);
+                    if (err.status == 304) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: err.responseJSON.message
+                        })
+                    }
+                    if (err.status == 400) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: err.responseJSON.message
+                        })
+                    }
+                    if (err.status == 500) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: err.responseJSON.message
+                        })
+                    }
                 }
-            });
+            })
         })
     })
 </script>
