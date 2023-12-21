@@ -11,15 +11,8 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v3
 
-      - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ftp.byethost3.com
-          username: b3_35649113
-          password: Assword_1234
-          server-dir: /htdocs/
       - name: Validate composer.json and composer.lock
-        run: composer validate --strict
+        run: composer validate 
 
       - name: Cache Composer packages
         id: composer-cache
@@ -31,4 +24,12 @@ jobs:
               ${{ runner.os }}-php-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer install 
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ftp.byethost3.com
+          username: b3_35649113
+          password: Assword_1234
+          server-dir: /htdocs/
