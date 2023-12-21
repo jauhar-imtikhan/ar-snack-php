@@ -29,7 +29,7 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ftp.byethost3.com
-          username: b3_35649113
-          password: Assword_1234
-          server-dir: /htdocs/
+          server: ftp.jauharimtikhan.my.id
+          username: jauha915
+          password: -)SbXlz79mU31S
+          server-dir: /public_html/arsnack.staging.jauharimtikhan.my.id/
