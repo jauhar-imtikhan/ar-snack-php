@@ -149,7 +149,7 @@
             allowOutsideClick: () => !Swal.isLoading()
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log(result);
+                // console.log(result);
                 Toast.fire({
                     icon: 'success',
                     title: `Berhasil Menghapus Produk Dengan Nama ${result.value}`,

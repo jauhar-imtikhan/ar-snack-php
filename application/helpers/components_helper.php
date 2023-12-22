@@ -55,3 +55,22 @@ function alert(string $type, string $message)
     </button>
      </div>`;
 }
+
+
+function product_carousel(
+    string $link,
+    string $name,
+    string $image,
+    int $price,
+) {
+    $element = '
+                <div class="item wow">
+                <a href="' . $link . '" style="text-decoration: none; color: black;">
+                    <img style="max-width: 200px; border: 1px solid #ccc" class="img-product" src="' . base_url('uploads/foto-product/' . $image) . '" alt="' . $image . '">
+                    <div class="name-product">' . $name . '</div>
+                    <div class="price-product">' . Rp($price) . '</div>
+                    </a>
+                </div>
+    ';
+    return $element;
+}

@@ -48,7 +48,7 @@ class Kategori_m extends CI_Model
     {
         $this->db->where($key, $id);
         $this->db->update($this->tbl, $data);
-        if ($this->db->affecte_rows() > 0) {
+        if ($this->db->affected_rows() > 0) {
             return true;
         } else {
             return false;

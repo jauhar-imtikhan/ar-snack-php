@@ -23,6 +23,28 @@ class Stock_m extends CI_Model
         }
     }
 
+    public function findManyJoin(): mixed
+    {
+        $sql = "SELECT p.product_name AS nama, s.product_stock_id AS prod_id, s.stock_product AS stok FROM tbl_product_stock s INNER JOIN tbl_products p ON s.product_stock_id = p.product_id";
+        $query = $this->db->query($sql)->result_array();
+        if ($query) {
+            return $query;
+        } else {
+            return false;
+        }
+    }
+
+    public function findManyJoinById(string $id): mixed
+    {
+        $sql = "SELECT p.product_name AS nama, s.product_stock_id AS prod_id, s.stock_product AS stok FROM tbl_product_stock s INNER JOIN tbl_products p ON s.product_stock_id = p.product_id WHERE s.product_stock_id = '$id'";
+        $query = $this->db->query($sql)->row_array();
+        if ($query) {
+            return $query;
+        } else {
+            return false;
+        }
+    }
+
     public function update(string $id, array $data): bool
     {
         $this->db->where('product_stock_id', $id);

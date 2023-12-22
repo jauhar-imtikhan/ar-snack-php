@@ -1,5 +1,5 @@
 <?php
-$data_toko = $this->db->get_where('tbl_config_toko')->row_array();
+$data_toko = $this->db->get_where('tbl_config_toko', ['config_toko_id' => '1'])->row_array();
 ?>
 
 <!DOCTYPE html>

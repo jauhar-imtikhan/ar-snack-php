@@ -10,6 +10,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property Configtoko_m Configtoko_m
  * @property Kategori_m Kategori_m
  * @property Form_validation form_validation
+ * @property Seo_m Seo_m
+ * @property Stock_m Stock_m
+ * @property Db db
  */
 
 class Admincontroller extends CI_Controller
@@ -21,6 +24,9 @@ class Admincontroller extends CI_Controller
         $this->load->model('Product_m');
         $this->load->model('Kategori_m');
         $this->load->model('Configtoko_m');
+        $this->load->model('User_m');
+        $this->load->model('Seo_m');
+        $this->load->model('Stock_m');
     }
 
     public function index()
@@ -35,11 +41,12 @@ class Admincontroller extends CI_Controller
     public function profile()
     {
 
-        $data_user = $this->user_m->findFirst(user_login()['user_id'], 'user_id');
+        $data_user = $this->User_m->findFirst(user_login()['user_id'], 'user_id');
         $data = [
             'title' => 'Profile',
             'page' => 'profile',
-            'data_user' => $data_user
+            'data_user' => $data_user,
+
         ];
         $this->load->view('admin/main', $data);
     }
@@ -75,12 +82,23 @@ class Admincontroller extends CI_Controller
     {
 
         $data_toko = $this->Configtoko_m->findFirst('config_toko_id', 1);
+        $seo = $this->Seo_m->findFirst();
+        $temp_email = $this->db->get_where('tbl_template_mail', ['template_email_id' => '1'])->row_array();
+        $sender_email = $this->db->get('tbl_config_email')->row_array();
         $data = [
             'title' => 'Setting',
             'page' => 'setting',
-            'data_toko' => $data_toko
+            'data_toko' => $data_toko,
+            'data_seo' => $seo,
+            'data_template_email' => $temp_email,
+            'data_sender_email' => $sender_email
         ];
         $this->load->view('admin/main', $data);
+    }
+
+    public function preview_template_email()
+    {
+        $this->load->view('mail/template_email');
     }
 
     public function update_foto_profile()
@@ -128,8 +146,6 @@ class Admincontroller extends CI_Controller
         }
     }
 
-
-
     public function update_product($id)
     {
         $products = $this->Product_m->findViewById($id);
@@ -139,6 +155,35 @@ class Admincontroller extends CI_Controller
             'page' => 'edit_produk',
             'products' => $products,
             'kategories' => $kategpories
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function add_kategori()
+    {
+        $data = [
+            'title' => 'Tambah Kategori',
+            'page' => 'add_kategori'
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function edit_kategori($id)
+    {
+        $kategories = $this->Kategori_m->findFirst('kategori_id', $id);
+        $data = [
+            'title' => 'Tambah Kategori',
+            'page' => 'edit_kategori',
+            'kategories' => $kategories
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function stock()
+    {
+        $data = [
+            'title' => 'Stock',
+            'page' => 'stock'
         ];
         $this->load->view('admin/main', $data);
     }

@@ -202,7 +202,7 @@ class Restauthcontroller extends RestController
                 if ($user_token) {
                     if ($user_token['token'] === $token) {
                         if (time() - $user_token['created_at']  < (60 * 60 * 24)) {
-                            $this->user_m->update($user['user_id'], ['status' => 1]);
+                            $this->User_m->update($user['user_id'], ['status' => 1]);
                             $this->token_m->delete($user_token['token']);
                             $msg = [
                                 'status' => 200,

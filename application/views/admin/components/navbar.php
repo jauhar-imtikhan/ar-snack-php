@@ -1,7 +1,9 @@
+<?php
+$data_toko = $this->db->get_where('tbl_config_toko', ['config_toko_id' => '1'])->row_array();
+?>
+
 <div class="navbar-custom">
     <ul class="list-unstyled topnav-menu float-right mb-0">
-
-
 
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -88,7 +90,7 @@
                 </a>
 
                 <!-- item-->
-                <a href="<?= site_url('settings') ?>" class="dropdown-item notify-item">
+                <a href="<?= site_url('settings?page=pengaturan_toko') ?>" class="dropdown-item notify-item">
                     <i class="mdi mdi-settings-outline"></i>
                     <span>Settings</span>
                 </a>
@@ -118,10 +120,14 @@
         <a href="index.html" class="logo text-center logo-dark">
             <span class="logo-lg">
                 <!-- <img src="<?= base_url('assets/admin-') ?>assets/images/logo-dark.png" alt="" height="26"> -->
-                <span class="logo-lg-text-dark">Simple</span>
+                <span class="logo-lg-text-dark"><?= $data_toko['nama_toko'] ?></span>
             </span>
             <span class="logo-sm">
-                <span class="logo-lg-text-dark">S</span>
+                <span class="logo-lg-text-dark"><?php
+                                                $sm = $data_toko['nama_toko'];
+                                                echo $sm;
+
+                                                ?></span>
                 <!-- <img src="<?= base_url('assets/admin-') ?>assets/images/logo-sm.png" alt="" height="22"> -->
             </span>
         </a>
@@ -129,10 +135,10 @@
         <a href="index.html" class="logo text-center logo-light">
             <span class="logo-lg">
                 <!-- <img src="<?= base_url('assets/admin-') ?>assets/images/logo-light.png" alt="" height="26"> -->
-                <span class="logo-lg-text-light">Simple</span>
+                <span class="logo-lg-text-light"><?= $data_toko['nama_toko'] ?></span>
             </span>
             <span class="logo-sm">
-                <span class="logo-lg-text-light">S</span>
+                <span class="logo-lg-text-light"><?= $data_toko['nama_toko'] ?></span>
                 <!-- <img src="<?= base_url('assets/admin-') ?>assets/images/logo-sm.png" alt="" height="22"> -->
             </span>
         </a>

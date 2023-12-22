@@ -5,11 +5,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Ar Snack Eceran & Grosir</title>
+    <title><?= $data_toko['nama_toko'] ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Website Agen Snack Ar Snack Eceran & Grosir" />
-    <meta name="keywords" content="agen snack, snack eceran, snack grosir, snack, snack lebaran, makanan ringan, kathering" />
-    <meta name="author" content="nanothemes.co" />
+    <meta name="description" content="<?= $data_seo['meta_description'] ?>" />
+    <meta name="keywords" content="<?= $data_seo['meta_keyword'] ?>" />
+    <meta name="author" content="<?= $data_seo['meta_author'] ?>" />
 
 
     <!-- Bootstrap  -->
@@ -104,33 +104,19 @@
     <div id="produk" class="na-products">
         <h2 class="box-title center animated fadeIn wow mb-5" data-wow-delay="0.2s">Produk</h2>
         <div class="container animated fadeIn wow" data-wow-delay="0.5s">
-            <div class="owl-carousel owl-theme" data-number="4" data-number-table="3" data-number-mintable="2" data-number-mobile="2" data-dots="true" data-arrows="false" data-loop="true">
+            <div class="owl-carousel owl-theme" data-number="5" data-number-table="3" data-number-mintable="4" data-number-mobile="2" data-dots="true" data-arrows="false" data-loop="true">
+                <?php
+                foreach ($products as $product) {
+                    echo product_carousel(
+                        base_url('produk/detail/' . $product['id_produk']),
+                        $product['nama_produk'],
+                        $product['gambar_produk'],
+                        intval($product['harga_jual']),
 
-                <div class="item wow">
-                    <img class="img-product" src="<?= base_url('assets/') ?>img/snack.jpg" alt="product 1">
-                    <div class="name-product">Quick Swap Smart Battery Premium Quality</div>
-                    <div class="price-product">$46.00</div>
-                </div>
-                <div class="item wow">
-                    <img class="img-product" src="<?= base_url('assets/') ?>img/snack.jpg" alt="product 2">
-                    <div class="name-product">Zenmuse A7 Gimbal For Sony A7s 500</div>
-                    <div class="price-product">$69.00</div>
-                </div>
-                <div class="item wow">
-                    <img class="img-product" src="<?= base_url('assets/') ?>img/snack.jpg" alt="product 3">
-                    <div class="name-product">Zenmuse X5 Gimbal And Camera Silhouette</div>
-                    <div class="price-product">$46.00</div>
-                </div>
-                <div class="item wow">
-                    <img class="img-product" src="<?= base_url('assets/') ?>img/snack.jpg" alt="product 4">
-                    <div class="name-product">Inspire 1 – Zenmuse X3 Gimbal Adapter</div>
-                    <div class="price-product">$52.00</div>
-                </div>
-                <div class="item wow">
-                    <img class="img-product" src="<?= base_url('assets/') ?>img/snack.jpg" alt="product 5">
-                    <div class="name-product">Inspire 1 Quadcopter – 4K Camera Premium Quality</div>
-                    <div class="price-product">$54.00</div>
-                </div>
+                    );
+                }
+
+                ?>
             </div>
         </div>
         <div class="d-flex justify-content-center mt-4">
@@ -149,9 +135,9 @@
                     <h2 class="box-title animated fadeInLeft wow" data-wow-delay="0.2s">Tanya Seputar</h2>
                     <p class="animated fadeInLeft wow" data-wow-delay="0.2s">Ar Snack</p>
                     <form class="form-request nimated fadeInLeft wow" data-wow-delay="0.4s" method="post" name="contact_form" action="">
-                        <input type="text" name="name" placeholder="Nama Lengkap:">
-                        <input type="text" name="email" placeholder="Email:">
-                        <input type="text" name="phone" placeholder="No. Whatsapp:">
+                        <input autocomplete="off" type="text" id="namalengkap" name="name" placeholder="Nama Lengkap:">
+                        <input autocomplete="off" type="text" id="email" name="email" placeholder="Email:">
+                        <input autocomplete="off" type="text" id="phone" name="phone" placeholder="No. Whatsapp:">
                         <textarea name="message" placeholder="Alamat:"></textarea>
                         <button type="submit" class="btn btn-submit" style=":hover {color: black}">Tanya Sekarang</button>
                     </form>
@@ -172,7 +158,7 @@
                             <i class="fa fa-phone"></i>
                             <div class="ground-text">
                                 <span class="name">NO. Whatsapp</span>
-                                <span class="des">+62 812 3456 789</span>
+                                <span class="des">+62 85748840499</span>
                             </div>
                         </div>
                         <div class="item-ico">
@@ -196,7 +182,7 @@
             <div class="footer-three-grid wow fadeIn animated" data-wow-delay="0.2s">
                 <div class="column-1-3">
                     <a id="logo-footer" class="logo" href="#">
-                        <h4 class="img-logo">Ar Snack</h4>
+                        <h4 class="img-logo"><?= $data_toko['nama_toko'] ?></h4>
                     </a>
                 </div>
 
@@ -209,7 +195,7 @@
                 </div>
             </div>
 
-            <p class="copyright">&copy; <?= date('Y') ?> Ar Snack. All rights reserved. Developed by <a href="https://github.com/jauhar-imtikhan/" target="_blank">Jauhar Imtikhan</a>.</p>
+            <p class="copyright">&copy; <?= date('Y') ?> <?= $data_toko['copyright'] ?></p>
 
         </div>
     </footer>
@@ -222,9 +208,9 @@
     <script src="<?= base_url('assets/') ?>js/owl.carousel.js"></script>
     <script src="<?= base_url('assets/') ?>js/wow.min.js"></script>
     <script src="<?= base_url('assets/') ?>js/main.js"></script>
-    <script type="module" src=" <?= base_url('js/test.js') ?>"></script>
 
-    <input style="top: 340px; opacity: 0; border: 5px solid white; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px inset, rgba(0, 0, 0, 0.1) 0px 0px 16px; padding: 15px; background: rgb(255, 41, 184) none repeat scroll 0% 0%; margin: 0px 0px 10px; position: fixed; left: 20px; color: rgb(255, 255, 255); height: 40px; z-index: 9999;" class="jscolor colorpcikewebjs" value="FF29B8" autocomplete="off">
+
+    <input type="hidden" style="top: 340px; opacity: 0; border: 5px solid white; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px inset, rgba(0, 0, 0, 0.1) 0px 0px 16px; padding: 15px; background: rgb(255, 41, 184) none repeat scroll 0% 0%; margin: 0px 0px 10px; position: fixed; left: 20px; color: rgb(255, 255, 255); height: 40px; z-index: 9999;" class="jscolor colorpcikewebjs" value="FF29B8" autocomplete="off">
 </body>
 
 </html>

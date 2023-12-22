@@ -23,6 +23,18 @@
                 <span> Produk </span>
             </a>
         </li>
+        <li>
+            <a href="<?= site_url('admin/stock') ?>">
+                <i class="mdi mdi-layers-triple"></i>
+                <span> Stock </span>
+            </a>
+        </li>
+        <li>
+            <a href="<?= site_url('settings') ?>">
+                <i class="fas fa-cog"></i>
+                <span> Settings </span>
+            </a>
+        </li>
 
         <li>
             <a href="javascript: void(0);">

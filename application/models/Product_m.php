@@ -131,6 +131,17 @@ class Product_m extends CI_Model
             return false;
         }
     }
+
+    public function findAndLimit(int $limit): mixed
+    {
+        $sql = "SELECT * FROM result_product LIMIT $limit";
+        $query = $this->db->query($sql)->result_array();
+        if ($query) {
+            return $query;
+        } else {
+            return false;
+        }
+    }
 }
 
 /* End of file Product_m.php */

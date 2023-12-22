@@ -1,5 +1,5 @@
 <?php
-$data = $this->db->get('tbl_template_mail')->row_array();
+$data = $this->db->get_where('tbl_template_mail', ['template_email_id' => '1'])->row_array();
 
 $title = $data['title'];
 $title_email = $data['title_email'];
@@ -19,7 +19,9 @@ $color_divider = $data['color_divider'];
 $position_btn = $data['position_btn'];
 $action = $data['action'];
 $description = $data['description'];
-$color_btn_text = $data['color-btn-text'];
+$color_btn_text = $data['color_btn_text'];
+$link = "000000";
+$link_to_website = "test";
 ?>
 
 
@@ -33,12 +35,12 @@ $color_btn_text = $data['color-btn-text'];
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
-        body {
+        .body {
             background-color: <?= $bg_body ?>;
             font-family: poppins !important;
         }
 
-        .container {
+        .containers {
             position: fixed;
 
 
@@ -50,7 +52,7 @@ $color_btn_text = $data['color-btn-text'];
             height: auto;
         }
 
-        .card {
+        .cards {
             background-color: <?= $bg_card ?>;
             margin: 0;
             border-radius: 10px;
@@ -59,43 +61,43 @@ $color_btn_text = $data['color-btn-text'];
             color: <?= $color_text ?>;
         }
 
-        .card-header {
+        .card-headers {
             background-color: <?= $color_header ?>;
             border-top-right-radius: 10px;
             border-top-left-radius: 10px;
             display: flex;
         }
 
-        .card-title {
+        .card-titles {
             margin-left: 1rem;
             color: white;
         }
 
-        .card-body {
+        .card-bodys {
             padding: 1rem;
             text-align: <?= $text_align ?>;
         }
 
-        .img-fluid {
+        .img-fluids {
             width: <?= $size_logo ?>px;
             height: auto;
             border-radius: 10px;
             margin-bottom: 1rem;
         }
 
-        .image-default {
+        .image-defaults {
             display: flex;
             justify-content: center;
         }
 
-        footer {
+        .footer {
             text-align: center;
             font-size: small;
 
         }
 
-        .btn,
-        .btn-primary {
+        .btns,
+        .btn-primarys {
             background-color: <?= $color_btn ?>;
             color: <?= $color_btn_text ?>;
             padding: 10px;
@@ -109,29 +111,29 @@ $color_btn_text = $data['color-btn-text'];
 
         }
 
-        .btn:hover {
+        .btns:hover {
             background-color: <?= $color_btn_hover ?>;
             cursor: pointer;
             text-decoration: none;
         }
 
-        hr {
+        .hr {
             border-color: <?= $color_divider ?>;
             margin: 30px 0px 30px 0px;
         }
 
-        .form-group {
+        .form-groups {
             display: flex;
             justify-content: <?= $position_btn ?>;
         }
 
-        .kode-wrapper {
+        .kode-wrappers {
             display: flex;
             justify-content: center;
             gap: 3px;
         }
 
-        .kode-verification {
+        .kode-verifications {
             background-color: #B6C4B6;
             padding: 10px 15px 10px 15px;
             color: white;
@@ -141,22 +143,22 @@ $color_btn_text = $data['color-btn-text'];
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <div class="image-default">
-            <img src="<?= base_url('assets/mail/img/' . $image . '') ?>" alt="" class="img-fluid">
+<body class="body">
+    <div class="containers">
+        <div class="image-defaults">
+            <img src="<?= base_url('assets/mail/img/' . $image . '') ?>" alt="" class="img-fluids">
         </div>
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title"><?= $title_email ?></h2>
+        <div class="cards">
+            <div class="card-headers">
+                <h2 class="card-titles"><?= $title_email ?></h2>
             </div>
-            <div class="card-body">
+            <div class="card-bodys">
 
                 <p><?= $message ?></p>
 
                 <p><?= $action ?></p>
-                <hr>
-                <div class="form-group">
+                <hr class="hr">
+                <div class="form-groups">
                     <?php
 
                     $links[] = str_split($link);
@@ -171,11 +173,11 @@ $color_btn_text = $data['color-btn-text'];
                         </div>
                     <?php } ?>
                 </div>
-                <hr>
-                <a href="<?= $link_to_website ?>" class="btn btn-primary"><?= $btn_name ?></a>
+                <hr class="hr">
+                <a href="<?= $link_to_website ?>" class="btns btn-primarys"><?= $btn_name ?></a>
                 <p><?= $description ?></p>
 
-                <footer>
+                <footer class="footer">
                     <p>&copy; <?= date('Y') ?>, All right reserved <?= $name ?></p>
                 </footer>
             </div>

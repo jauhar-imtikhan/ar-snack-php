@@ -1,12 +1,17 @@
+<?php
+$data_toko = $this->db->get_where("tbl_config_toko", ['config_toko_id' => '1'])->row_array();
+$data_seo = $this->db->get_where('tbl_seo', ['seo_id' => '1'])->row_array();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <title>Halaman Login | AR SNACK </title>
+    <title>Halaman Login | <?= $data_toko['nama_toko'] ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="pusat snack eceran dan grosir" name="description" />
-    <meta content="jauhar imtikhan" name="author" />
+    <meta content="<?= $data_seo['meta_description'] ?>" name="description" />
+    <meta content="<?= $data_seo['meta_author'] ?>" name="author" />
+    <meta content="<?= $data_seo['meta_keyword'] ?>" name="keyword" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?= base_url('assets/admin-') ?>assets/images/favicon.ico">
@@ -35,7 +40,7 @@
                         <div class="card-body">
                             <div class="text-center mb-4 mt-3">
                                 <a href="<?= base_url('admin') ?>">
-                                    <span><img src="<?= base_url('assets/admin-') ?>assets/images/logo-dark.png" alt="" height="30"></span>
+                                    <h3><?= $data_toko['nama_toko'] ?></h3>
                                 </a>
 
                             </div>

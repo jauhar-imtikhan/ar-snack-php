@@ -15,6 +15,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property Upload upload
  * @property Cloudinary cloudinary
  * @property Db db
+ * @property Seo_m Seo_m
  */
 
 class Restadmincontroller extends RestController
@@ -27,6 +28,7 @@ class Restadmincontroller extends RestController
         $this->load->model('Kategori_m');
         $this->load->model('user_m');
         $this->load->model('Stock_m');
+        $this->load->model('Seo_m');
     }
     public function update_profile_post()
     {
@@ -227,8 +229,6 @@ class Restadmincontroller extends RestController
         return $result;
     }
 
-
-
     public function get_product_get()
     {
         $query = $this->Product_m->findView();
@@ -360,6 +360,286 @@ class Restadmincontroller extends RestController
                 'message' => "Nama Produk Tidak Sesuai"
             ];
             $this->response($msg, Restcontroller::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    public function proses_tambah_kategori_post()
+    {
+        $this->form_validation->set_rules('namakategori', 'Nama Kategori', 'required|is_unique[tbl_kategori.kategori_name]');
+        $this->form_validation->set_rules('deskripsikategori', 'Deskripsi Kategori', 'required');
+
+        $this->form_validation->set_message('required', '{field} harus diisi');
+        $this->form_validation->set_message('is_unique', '{field} sudah ada');
+
+        if ($this->form_validation->run() === FALSE) {
+            $errors = [
+                'errors' => [
+                    'namakategori' => form_error('namakategori'),
+                    'deskripsikategori' => form_error('deskripsikategori')
+                ]
+            ];
+
+            $this->response($errors, RestController::HTTP_NOT_ACCEPTABLE);
+        } else {
+            $nama = $this->input->post('namakategori', true);
+            $deskripsi = $this->input->post('deskripsikategori', true);
+
+            $data = [
+                'kategori_name' => $nama,
+                'kategori_deskripsi' => $deskripsi
+            ];
+
+            $query = $this->Kategori_m->create($data);
+
+            if ($query == true) {
+                $msg = [
+                    'status' => 200,
+                    'message' => "Berhasil menambahkan kategori"
+                ];
+
+                $this->response($msg, RestController::HTTP_OK);
+            } else {
+                $msg = [
+                    'status' => 500,
+                    'message' => "Gagal menambahkan kategori"
+                ];
+
+                $this->response($msg, RestController::HTTP_INTERNAL_ERROR);
+            }
+        }
+    }
+
+    public function prosess_edit_kategori_post()
+    {
+        $nama = $this->input->post('namakategori', true);
+        $des = $this->input->post('deskripsikategori', true);
+        $id = $this->input->post('id', true);
+
+        $data = [
+            'kategori_name' => $nama,
+            'kategori_deskripsi' => $des
+        ];
+
+        $query = $this->Kategori_m->update('kategori_id', $id, $data);
+        if ($query == true) {
+            $msg = [
+                'status' => 200,
+                'message' => "Berhasil update kategori"
+            ];
+            $this->response($msg, RestController::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'message' => "Gagal update kategori"
+            ];
+            $this->response($msg, RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function hapus_kategori_get($id, $id_confirm)
+    {
+
+        $check_kategori = $this->Kategori_m->findFirst('kategori_id', $id);
+        if ($check_kategori['kategori_name'] === urldecode($id_confirm)) {
+
+            $query = $this->Kategori_m->delete('kategori_id', $id);
+            if ($query == true) {
+                $msg = [
+                    'status' => 200,
+                    'message' => "Berhasil menghapus kategori"
+                ];
+                $this->response($msg, Restcontroller::HTTP_OK);
+            } else {
+                $msg = [
+                    'status' => 500,
+                    'message' => "Gagal menghapus produk"
+                ];
+                $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+            }
+        } else {
+            $msg = [
+                'status' => 401,
+                'message' => "Nama Kategori Tidak Sesuai"
+            ];
+            $this->response($msg, Restcontroller::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    public function update_toko_post()
+    {
+        $nama = $this->input->post('namatoko', true);
+        $addr = $this->input->post('alamattoko', true);
+        $des = $this->input->post('deskripsitoko', true);
+        $copy = $this->input->post('copyrighttoko');
+
+        $data = [
+            'nama_toko' => $nama,
+            'copyright' => $copy,
+            'deskripsi_toko' => $des,
+            'alamat_toko' => $addr
+        ];
+        $this->db->where('config_toko_id', '1');
+        $this->db->update('tbl_config_toko', $data);
+        if ($this->db->affected_rows() > 0) {
+            $msg = [
+                'status' => 200,
+                'message' => "Berhasil mengupdate toko"
+            ];
+            $this->response($msg, Restcontroller::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'message' => "Gagal mengupdate toko"
+            ];
+            $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function update_seo_post()
+    {
+        $title = $this->input->post('metatitle', true);
+        $des = $this->input->post('metadescription', true);
+        $keyword = $this->input->post('metakeyword', true);
+        $author = $this->input->post('metaauthor', true);
+
+        $data = [
+            'meta_title' => $title,
+            'meta_description' => $des,
+            'meta_keyword' => $keyword,
+            'meta_author' => $author
+        ];
+
+        $query = $this->Seo_m->update($data);
+        if ($query == true) {
+            $msg = [
+                'status' => 200,
+                'message' => "Berhasil mengupdate SEO"
+            ];
+            $this->response($msg, Restcontroller::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'message' => "Gagal mengupdate SEO"
+            ];
+            $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function update_sender_email_post()
+    {
+        $key = $this->input->post('keyemail', true);
+        $emailfrom = $this->input->post('emailfrom', true);
+        $nameemail = $this->input->post('nameemail', true);
+
+        $data = [
+            'key_email' => $key,
+            'send_email' => $emailfrom,
+            'name_email' => $nameemail
+        ];
+
+        $this->db->where('key_email', $key);
+        $this->db->update('tbl_config_email', $data);
+
+        if ($this->db->affected_rows() > 0) {
+            $msg = [
+                'status' => 200,
+                'message' => "Berhasil mengupdate sender email"
+            ];
+            $this->response($msg, Restcontroller::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'message' => "Gagal mengupdate sender email"
+            ];
+            $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function get_stock_get()
+    {
+        $query = $this->Stock_m->findManyJoin();
+        if ($query !== false) {
+            $msg = [
+                'status' => 200,
+                'data' => $query
+            ];
+            $this->response($msg, Restcontroller::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'data' => 'data not found'
+            ];
+            $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function get_stock_by_id_get($id)
+    {
+        $query = $this->Stock_m->findManyJoinById($id);
+        if ($query !== false) {
+            $msg = [
+                'status' => 200,
+                'data' => $query
+            ];
+            $this->response($msg, Restcontroller::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'data' => 'data not found'
+            ];
+            $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function update_stock_post()
+    {
+        $id = $this->input->post('id', true);
+        $data = [
+            'stock_product' => $this->input->post('stock', true)
+        ];
+        $this->db->where('product_stock_id', $id);
+        $this->db->update('tbl_product_stock', $data);
+        if ($this->db->affected_rows() > 0) {
+            $msg = [
+                'status' => 200,
+                'message' => "Berhasil mengupdate stock"
+            ];
+            $this->response($msg, Restcontroller::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'message' => "Gagal mengupdate stock"
+            ];
+            $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function hapus_stock_get($id, $id_confirm)
+    {
+        $check_stock = $this->Stock_m->findManyJoinById($id);
+
+        if (urldecode($id_confirm) !== $check_stock['nama']) {
+            $msg = [
+                'status' => 401,
+                'message' => "Gagal Menghapus Stock"
+            ];
+            $this->response($msg, Restcontroller::HTTP_UNAUTHORIZED);
+        } else {
+            $this->db->where('product_stock_id', $id);
+            $this->db->delete('tbl_product_stock');
+            if ($this->db->affected_rows() > 0) {
+                $msg = [
+                    'status' => 200,
+                    'message' => "Berhasil menghapus stock"
+                ];
+                $this->response($msg, Restcontroller::HTTP_OK);
+            } else {
+                $msg = [
+                    'status' => 500,
+                    'message' => "Gagal menghapus stock"
+                ];
+                $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+            }
         }
     }
 }
