@@ -1,0 +1,35 @@
+on:
+  push:
+    branches:
+      - master
+name: 🚀 Deploy Project Ar Snack
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate 
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+            path: vendor
+            key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+            restore-keys: |
+              ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install 
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ftp.jauharimtikhan.my.id
+          username: jauha915
+          password: -)SbXlz79mU31S
+          server-dir: /public_html/arsnack.staging.jauharimtikhan.my.id/
