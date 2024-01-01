@@ -642,6 +642,125 @@ class Restadmincontroller extends RestController
             }
         }
     }
+
+    public function search_post()
+    {
+        $key = $this->input->post('keyword', true);
+        $this->response($key, Restcontroller::HTTP_OK);
+    }
+
+    public function get_auto_reply_get()
+    {
+        $query = $this->db->get('tbl_wa_bot')->result_array();
+
+        if ($query) {
+            $msg = [
+                'status' => 200,
+                'data' => $query
+            ];
+            $this->response($msg, RestController::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'data' => 'data not found'
+            ];
+            $this->response($msg, RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function wa_auto_reply_post()
+    {
+        $this->form_validation->set_rules('pesantriger', 'Triger Pesan', 'trim|required|is_unique[tbl_wa_bot.wa_bot_pesan]');
+        $this->form_validation->set_rules('pesanbalasan', 'Pesan Balasan', 'trim|required|is_unique[tbl_wa_bot.wa_bot_reply]');
+
+        $this->form_validation->set_message('required', '{field} harus diisi');
+        $this->form_validation->set_message('is_unique', '{field} sudah ada');
+
+        if ($this->form_validation->run() === FALSE) {
+            $err = [
+                'errors' => [
+                    'pesantriger' => form_error('pesantriger'),
+                    'pesanbalasan' => form_error('pesanbalasan')
+                ]
+            ];
+
+            $this->response($err, RestController::HTTP_NOT_ACCEPTABLE);
+        } else {
+            $triger = $this->input->post('pesantriger', true);
+            $reply = $this->input->post('pesanbalasan', true);
+            $s = $this->input->post('statustriger', true);
+            $status = ($s == 'on') ? true : false;
+
+            $data = [
+                'wa_bot_pesan' => $triger,
+                'wa_bot_reply' => $reply,
+                'wa_bot_status' => $status
+            ];
+
+            $this->db->insert('tbl_wa_bot', $data);
+            if ($this->db->affected_rows() > 0) {
+                $msg = [
+                    'status' => 200,
+                    'message' => "Berhasil menambahkan auto reply"
+                ];
+                $this->response($msg, Restcontroller::HTTP_OK);
+            } else {
+                $msg = [
+                    'status' => 500,
+                    'message' => "Gagal menambahkan auto reply"
+                ];
+                $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+            }
+        }
+    }
+
+    public function update_auto_reply_post($id)
+    {
+        $triger = $this->input->post('triger', true);
+        $reply = $this->input->post('balasan', true);
+        $status = $this->input->post('status', true);
+
+        $data = [
+            'wa_bot_pesan' => $triger,
+            'wa_bot_reply' => $reply,
+            'wa_bot_status' => $status
+        ];
+
+        $this->db->where('wa_bot_id', $id);
+        $this->db->update('tbl_wa_bot', $data);
+        if ($this->db->affected_rows() > 0) {
+            $msg = [
+                'status' => 200,
+                'message' => "Berhasil mengupdate auto reply"
+            ];
+            $this->response($msg, Restcontroller::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'message' => "Gagal mengupdate auto reply"
+            ];
+            $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function delete_auto_reply_post($id)
+    {
+        $this->db->where('wa_bot_id', $id);
+        $this->db->delete('tbl_wa_bot');
+        if ($this->db->affected_rows() > 0) {
+            $msg = [
+                'status' => 200,
+                'message' => "Berhasil menghapus auto reply"
+            ];
+            $this->response($msg, Restcontroller::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'message' => "Gagal menghapus auto reply"
+            ];
+            $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+        }
+    }
 }
 
 /* End of file Restadmincontroller.php */

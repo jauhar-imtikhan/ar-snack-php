@@ -30,10 +30,20 @@
             </a>
         </li>
         <li>
-            <a href="<?= site_url('settings') ?>">
+            <a href="<?= site_url('settings?page=pengaturan_toko') ?>">
                 <i class="fas fa-cog"></i>
                 <span> Settings </span>
             </a>
+        </li>
+        <li>
+            <a href="javascript: void(0);">
+                <i class="fab fa-whatsapp"></i>
+                <span> Whatsapp Gateway</span>
+            </a>
+            <ul class="nav-second-level" aria-expanded="false">
+                <li><a href="<?= site_url('admin/wa_gateway') ?>">Setting</a></li>
+                <li><a href="<?= site_url('admin/wa_gateway/auto_reply') ?>">Pesan BOT</a></li>
+            </ul>
         </li>
 
         <li>

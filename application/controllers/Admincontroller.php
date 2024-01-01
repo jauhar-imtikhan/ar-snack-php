@@ -187,4 +187,25 @@ class Admincontroller extends CI_Controller
         ];
         $this->load->view('admin/main', $data);
     }
+    public function wa()
+    {
+
+        $data = [
+            'title' => 'Whatsapp Gateway',
+            'page' => 'wa_gateway',
+
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function wa_auto_reply()
+    {
+
+        $data = [
+            'title' => 'Whatsapp BOT Auto REply',
+            'page' => 'wa_auto_reply',
+
+        ];
+        $this->load->view('admin/main', $data);
+    }
 }

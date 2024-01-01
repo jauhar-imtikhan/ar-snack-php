@@ -29,7 +29,13 @@
                     </li>
                 </ul>
                 <div class="btn-header">
-                    <a class="btn-link" href="<?= base_url('login') ?>">Login</a>
+                    <?php if ($this->session->userdata('user_id')) { ?>
+                        <a class="btn-link " href="<?= base_url('user/account') ?>"><i class="fas fa-user"></i></a>
+
+                    <?php } else { ?>
+                        <a class="btn-link" href="<?= base_url('login') ?>">Login</a>
+
+                    <?php } ?>
                 </div>
             </div>
         </div>

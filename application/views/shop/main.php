@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Ar Snack Eceran & Grosir</title>
+    <title><?= $title ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?= $data_seo['meta_description'] ?>" />
     <meta name="keywords" content=<?= $data_seo['meta_keyword'] ?>" />
@@ -25,6 +25,8 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700&display=swap" rel="stylesheet">
     <!-- Theme style  -->
     <link rel="stylesheet" href="<?= base_url('assets/') ?>css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
 
 
 </head>
@@ -62,7 +64,7 @@
                                 <a role="button" data-toggle="modal" data-target="#modalId" class="nav-link" href="#"><i class="fas fa-search"></i> </a>
                             </li>
                             <li class="nav-item" id="search">
-                                <a role="button" class="nav-link" href="<?= base_url('cart?user_id=' . $this->session->userdata('user_id')) ?>"><i class="fas fa-shopping-cart"></i> <span class="badge badge-warning" id="count_cart"><?= $count_cart ?></span></a>
+                                <a role="button" class="nav-link" href="<?= base_url('cart?user_id=' . $this->session->userdata('user_id')) ?>"><i class="fas fa-shopping-cart"></i> <span class="badge badge-warning" id="count_cart"></span></a>
                             </li>
 
                         </ul>
@@ -78,6 +80,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="site-header-hoder"></div>
             <!-- Slider =================================================== -->
             <div class="container na-slider">
@@ -89,61 +92,24 @@
                 </div>
             </div>
 
-
-
         </div>
 
     </div>
     <div class="d-flex justify-content-center">
-        <div class="row mt-5 p-5">
+        <h1 class="animated fadeInUp mt-3 wow" data-wow-delay="1.2s"><?= $title ?></h1>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="row p-2 ">
             <?php
-
-            if (isset($_GET['keyword'])) {
-                if (is_array($products)) {
-                    foreach ($products as $product) {
-                        if ($product > 1) {
-                            echo ListProdukSingle(
-                                $product['id_produk'],
-                                $product['nama_produk'],
-                                $product['deskripsi_produk'],
-                                $product['harga_jual'],
-                                $product['gambar_produk'],
-                                $product['kode_produk'],
-                                $product['berat_produk']
-                            );
-                            break;
-                        }
-
-                        echo  ListProduk(
-                            $product['id_produk'],
-                            $product['nama_produk'],
-                            $product['deskripsi_produk'],
-                            $product['harga_jual'],
-                            $product['gambar_produk'],
-                            $product['kode_produk'],
-                            $product['berat_produk']
-                        );
-                    }
-                } else {
-                    echo '<h4 class="text-danger">Produk Tidak Ditemukan</h4>';
-                }
+            if (empty($page)) {
+                echo '<h1 class="text-center text-danger">Halaman tidak ditemukan</h1>';
             } else {
-                error_reporting(0);
-                foreach ($products as $product) {
-                    echo  ListProduk(
-                        $product['id_produk'],
-                        $product['nama_produk'],
-                        $product['deskripsi_produk'],
-                        $product['harga_jual'],
-                        $product['gambar_produk'],
-                        $product['kode_produk'],
-                        $product['berat_produk'],
-
-                    );
+                if (file_exists(APPPATH . '/views/shop/page/' . $page . '.php')) {
+                    include APPPATH . '/views/shop/page/' . $page . '.php';
+                } else {
+                    echo '<h1 class="text-center text-danger">File tidak ditemukan</h1>';
                 }
             }
-
-
             ?>
 
         </div>
@@ -160,6 +126,7 @@
         </nav>
 
     </div>
+
 
     <footer id="footer-outer" class="footer-outer">
         <div class="container footer-inner">
@@ -196,6 +163,7 @@
                     <button type="button" class="close" data-dismiss="modal">x</button>
                 </div>
                 <div class="modal-body" style="background: white;">
+
                     <form action="<?= site_url('produk/') . $this->uri->segment(2) . '?keyword=' ?>" method="get" class="form-search-product">
                         <div class="form-group">
                             <div class="input-group">
@@ -226,63 +194,12 @@
     <script src="<?= base_url('assets/') ?>js/wow.min.js"></script>
     <script src="<?= base_url('assets/') ?>js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "bottom-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-                toast.style.zIndex = 9999999
-            }
-        });
         $(document).ready(function() {
             $('#mnProduk').addClass('active');
-
+            countCart()
         });
-
-        function addToCart(id, harga, img, berat, name) {
-            let qty = 1;
-            let variant = "";
-            let nama = name;
-            let id_barang = id
-
-            $.ajax({
-                url: '<?= base_url('rest/shop/addtocart'); ?>',
-                method: 'post',
-                data: {
-                    qty: qty,
-                    variant: variant,
-                    nama: nama,
-                    id_barang: id_barang,
-                    harga: harga,
-                    berat: berat,
-                    img: img,
-                },
-
-                success: function(res) {
-                    if (res.status == 200) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: res.message,
-                        }).then((success) => {
-                            countCart()
-                        })
-                    }
-                },
-                error: function(err) {
-                    if (err.status == 500) {
-                        Toast.fire({
-                            icon: 'error',
-                            title: err.responseJSON.message
-                        })
-                    }
-                }
-            })
-        }
 
         function countCart() {
             $.ajax({
@@ -296,8 +213,51 @@
                 }
             })
         }
+
+        function debounce(func, wait, immediate) {
+            var timeout;
+            return function() {
+                var context = this,
+                    args = arguments;
+                var later = function() {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
+
+        function Rp(angka) {
+            var number_string = angka.toString(),
+                sisa = number_string.length % 3,
+                rupiah = number_string.substr(0, sisa),
+                ribuan = number_string.substr(sisa).match(/\d{3}/g);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            return 'Rp ' + rupiah;
+        }
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "bottom-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+                toast.style.zIndex = 9999999
+            }
+        });
     </script>
-    <input style="top: 340px; opacity: 0; border: 5px solid white; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px inset, rgba(0, 0, 0, 0.1) 0px 0px 16px; padding: 15px; background: rgb(255, 41, 184) none repeat scroll 0% 0%; margin: 0px 0px 10px; position: fixed; left: 20px; color: rgb(255, 255, 255); height: 40px; z-index: 9999;" class="jscolor colorpcikewebjs" value="FF29B8" autocomplete="off">
+    <input style="top: 340px; opacity: 0; border: 5px solid white; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px inset, rgba(0, 0, 0, 0.1) 0px 0px 16px; padding: 15px; background: rgb(255, 41, 184) none repeat scroll 0% 0%; margin: 0px 0px 10px; position: fixed; left: 20px; color: rgb(255, 255, 255); height: 40px; z-index: 9999;" type="hidden" class="jscolor colorpcikewebjs" value="FF29B8" autocomplete="off">
 </body>
 
 </html>

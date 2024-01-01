@@ -37,7 +37,7 @@ $data_toko = $this->db->get_where('tbl_config_toko', ['config_toko_id' => '1'])-
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
 
 
-    <?php include APPPATH . '\third_party\config_theme.php' ?>
+    <?php include APPPATH . '/third_party/config_theme.php' ?>
 </head>
 
 <body>
@@ -45,7 +45,7 @@ $data_toko = $this->db->get_where('tbl_config_toko', ['config_toko_id' => '1'])-
     <div id="wrapper">
 
 
-        <?php include APPPATH . 'views\admin\components\navbar.php'; ?>
+        <?php include APPPATH . 'views/admin/components/navbar.php'; ?>
 
         <div class="left-side-menu">
 
@@ -60,7 +60,7 @@ $data_toko = $this->db->get_where('tbl_config_toko', ['config_toko_id' => '1'])-
                 </div>
             </div>
 
-            <?php include APPPATH . 'views\admin\components\sidebar.php'; ?>
+            <?php include APPPATH . 'views/admin/components/sidebar.php'; ?>
 
             <div class="clearfix"></div>
 
@@ -72,13 +72,13 @@ $data_toko = $this->db->get_where('tbl_config_toko', ['config_toko_id' => '1'])-
                 <div class="container-fluid">
                     <?php
                     if (isset($page)) {
-                        if (file_exists(APPPATH . 'views\admin\pages\\' . $page . '.php')) {
-                            include APPPATH . 'views\admin\pages\\' . $page . '.php';
+                        if (file_exists(APPPATH . 'views/admin/pages/' . $page . '.php')) {
+                            include APPPATH . 'views/admin/pages/' . $page . '.php';
                         } else {
-                            include APPPATH . 'views\errors\404.php';
+                            include APPPATH . 'views/errors/404.php';
                         }
                     } else {
-                        include APPPATH . 'views\errors\404.php';
+                        include APPPATH . 'views/errors/404.php';
                     }
 
 
@@ -200,10 +200,17 @@ $data_toko = $this->db->get_where('tbl_config_toko', ['config_toko_id' => '1'])-
         })
 
         function Rp(angka) {
-            var reverse = angka.toString().split('').reverse().join(''),
-                ribuan = reverse.match(/\d{1,3}/g);
-            ribuan = ribuan.join('.').split('').reverse().join('');
-            return 'Rp ' + ribuan;
+            var number_string = angka.toString(),
+                sisa = number_string.length % 3,
+                rupiah = number_string.substr(0, sisa),
+                ribuan = number_string.substr(sisa).match(/\d{3}/g);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            return 'Rp ' + rupiah;
         }
     </script>
 </body>

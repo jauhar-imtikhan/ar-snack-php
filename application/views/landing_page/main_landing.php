@@ -34,17 +34,14 @@
 
     <div id="page-wrap">
 
-        <?php include APPPATH . 'views\landing_page\components\navbar.php'; ?>
+        <?php include APPPATH . 'views/landing_page/components/navbar.php'; ?>
 
-        <?php include APPPATH . 'views\landing_page\components\keunggulan.php'; ?>
+        <?php include APPPATH . 'views/landing_page/components/keunggulan.php'; ?>
 
 
     </div>
 
 
-    <!-- ==========================================================================================================
-													  Guide Videos
-		 ========================================================================================================== -->
 
     <div id="langkah-pembelian" class="na-guide" style="height: fit-content;">
         <h2 class="box-title center animated fadeIn wow" data-wow-delay="0.2s">Cara Pembelian</h2>
@@ -97,9 +94,6 @@
         </div>
     </div>
 
-    <!-- ==========================================================================================================
-													  LIST PRODUCTS
-		 ========================================================================================================== -->
 
     <div id="produk" class="na-products">
         <h2 class="box-title center animated fadeIn wow mb-5" data-wow-delay="0.2s">Produk</h2>
@@ -120,13 +114,9 @@
             </div>
         </div>
         <div class="d-flex justify-content-center mt-4">
-            <a href="<?= site_url('produk') ?>" class="btn btn-primary btn-md">Lebih Lengkap</a>
+            <a href="<?= site_url('produk/1') ?>" class="btn btn-primary btn-md">Lebih Lengkap</a>
         </div>
     </div>
-
-    <!-- ==========================================================================================================
-													  Request Form
-		 ========================================================================================================== -->
     <div id="na-form" class="na-form">
         <div class="container">
             <div class="row">

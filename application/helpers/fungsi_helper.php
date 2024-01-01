@@ -102,20 +102,16 @@ function countPaymentTotal()
 {
     /** @var \CodeIgniter $ci */
     $ci = get_instance();
-    $sql = "SELECT COUNT('payment_id') AS total_payment FROM tbl_payment";
+    $sql = "SELECT COUNT('invoice_id') AS total_payment FROM tbl_invoice";
     $user = $ci->db->query($sql)->row();
     return $user->total_payment;
 }
-
-
-
-
 
 function countTotalPendapatan()
 {
     /** @var \CodeIgniter $ci */
     $ci = get_instance();
-    $sql = "SELECT SUM(total_payment) AS total FROM tbl_payment";
+    $sql = "SELECT SUM(invoice_total_price) AS total FROM tbl_invoice";
     $total = $ci->db->query($sql)->row();
 
     if ($total->total == null) {
@@ -123,4 +119,10 @@ function countTotalPendapatan()
     } else {
         return $total->total;
     }
+}
+
+function cleanString(string $string)
+{
+    $cleanedString = preg_replace('/[^0-9]/', '', $string);
+    return $cleanedString;
 }

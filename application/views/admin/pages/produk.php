@@ -154,7 +154,7 @@
                     icon: 'success',
                     title: `Berhasil Menghapus Produk Dengan Nama ${result.value}`,
                 }).then((success) => {
-                    location.reload()
+                    getProduct()
                 })
             } else if (
                 /* Read more about handling dismissals below */

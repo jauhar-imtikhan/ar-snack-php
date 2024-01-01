@@ -7,7 +7,7 @@ class Configtoko_m extends CI_Model
     private $tbl;
     public function __construct()
     {
-        parent::__construct();;
+        parent::__construct();
         $this->tbl = "tbl_config_toko";
     }
 

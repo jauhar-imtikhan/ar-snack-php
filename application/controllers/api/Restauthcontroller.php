@@ -113,13 +113,14 @@ class Restauthcontroller extends RestController
         $this->load->model('token_m');
 
         $this->form_validation->set_rules('namalengkap', 'Nama Lengkap', 'required|min_length[3]');
-        $this->form_validation->set_rules('nowhatsapp', 'No. Whatsapp', 'required|min_length[10]');
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('nowhatsapp', 'No. Whatsapp', 'required|min_length[10]|is_unique[tbl_users.no_whatsapp]');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[tbl_users.email]');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
 
         $this->form_validation->set_message("required", "{field} harus diisi");
         $this->form_validation->set_message("valid_email", "{field} harus email valid");
         $this->form_validation->set_message("min_length", "{field} minimal {param} karakter");
+        $this->form_validation->set_message("is_unique", "{field} sudah terdaftar, Silahkan gunakan {field} yang lain");
 
         if ($this->form_validation->run() === FALSE) {
             $validation_err = [

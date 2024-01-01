@@ -14,7 +14,9 @@ tests/mocks/database/ci_test.sqlite
 
 /vendor/
 .env
-/node_modules
+/wa-gateway/node_modules
+/wa-gateway/.wwebjs_auth
+/wa-gateway/.wwebjs_cache
 
 # IDE Files
 #-------------------------

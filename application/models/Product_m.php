@@ -35,7 +35,7 @@ class Product_m extends CI_Model
 
     public function findViewById(mixed $id): array
     {
-        $query = $this->db->query("SELECT * FROM result_product WHERE id_produk = $id")->row_array();
+        $query = $this->db->query("SELECT * FROM result_product WHERE id_produk = '$id'")->row_array();
         if ($query) {
             return $query;
         } else {
@@ -136,6 +136,38 @@ class Product_m extends CI_Model
     {
         $sql = "SELECT * FROM result_product LIMIT $limit";
         $query = $this->db->query($sql)->result_array();
+        if ($query) {
+            return $query;
+        } else {
+            return false;
+        }
+    }
+
+    public function paginate($limit,  $offest): mixed
+    {
+        $query = $this->db->get('result_product', $limit, $offest);
+
+        if ($query) {
+            return $query->result_array();
+        } else {
+            return false;
+        }
+    }
+
+    public function search($keyword): mixed
+    {
+        $sql = "SELECT * FROM result_product WHERE nama_produk LIKE '%$keyword%'";
+        $query = $this->db->query($sql)->result_array();
+        if ($query) {
+            return $query;
+        } else {
+            return false;
+        }
+    }
+
+    public function count_product(): int
+    {
+        $query = $this->db->get('result_product')->num_rows();
         if ($query) {
             return $query;
         } else {
