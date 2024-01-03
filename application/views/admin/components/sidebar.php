@@ -53,10 +53,7 @@
                 <span class="menu-arrow"></span>
             </a>
             <ul class="nav-second-level" aria-expanded="false">
-                <li><a href="components-range-slider.html">Range Slider</a></li>
-                <li><a href="components-alerts.html">Alerts</a></li>
-                <li><a href="components-icons.html">Icons</a></li>
-                <li><a href="components-widgets.html">Widgets</a></li>
+                <li><a href="<?= site_url('admin/hero_section') ?>">Hero Section</a></li>
             </ul>
         </li>
 

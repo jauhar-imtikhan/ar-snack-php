@@ -1,11 +1,14 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php
+$data_hero_section = $this->db->get_where("tbl_hero_section", ['hero_section_id' => '1'])->row_array();
+?>
 <!DOCTYPE html>
 
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Ar Snack Eceran & Grosir</title>
+    <title><?= $data_toko['nama_toko'] ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?= $data_seo['meta_description'] ?>" />
     <meta name="keywords" content=<?= $data_seo['meta_keyword'] ?>" />
@@ -81,11 +84,11 @@
             <div class="site-header-hoder"></div>
             <!-- Slider =================================================== -->
             <div class="container na-slider">
-                <h1 class="animated fadeIn wow" data-wow-delay="0.4s"><?= $data_toko['nama_toko'] ?></h1>
-                <span class="sub-title animated fadeInDown wow" data-wow-delay="0.2s">Pusat Snack Lebaran Eceran & Grosir</span>
+                <h1 class="animated fadeIn wow" data-wow-delay="0.4s"><?= $data_hero_section['hero_section_title'] ?></h1>
+                <span class="sub-title animated fadeInDown wow" data-wow-delay="0.2s"><?= $data_hero_section['hero_section_deskripsi'] ?></span>
 
                 <div class="d-flex justify-content-center">
-                    <img class="animated fadeInUp wow" data-wow-delay="1s" src="<?= base_url('assets/img/snack.jpg') ?>" style="border-radius: 10px;" alt="Product">
+                    <img class="animated fadeInUp wow  h-50 w-50" style="border-radius: 10px; max-width: 500px; height: auto" data-wow-delay="1s" src="<?= base_url('uploads/frontend/hero-section/') . $data_hero_section['hero_section_img'] ?>" alt="Product">
                 </div>
             </div>
 

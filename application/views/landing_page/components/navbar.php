@@ -1,9 +1,14 @@
+<?php
+$data_toko = $this->db->get_where('tbl_config_toko', ['config_toko_id' => '1'])->row_array();
+$hero_section = $this->db->get_where('tbl_hero_section', ['hero_section_id' => '1'])->row_array();
+?>
+
 <div id="na-header-wrapper" style="margin-bottom: 0">
 
     <div class="site-header header-fixed navbar navbar-expand-lg main-navbar-nav navbar-light">
         <div class="container">
             <a id="logo" class="logo" href="#">
-                <h3 class="img-logo text-white"> Ar Snack</h3>
+                <h3 class="img-logo text-white"> <?= $data_toko['nama_toko'] ?></h3>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="icon-toggler"></i>
@@ -43,10 +48,10 @@
     <div class="site-header-hoder"></div>
     <!-- Slider =================================================== -->
     <div class="container na-slider">
-        <h1 class="animated fadeIn wow" data-wow-delay="0.4s">AR Snack</h1>
-        <span class="sub-title animated fadeInDown wow" data-wow-delay="0.2s">Pusat Snack Lebaran Eceran & Grosir</span>
+        <h1 class="animated fadeIn wow" data-wow-delay="0.4s"><?= $hero_section['hero_section_title'] ?></h1>
+        <span class="sub-title animated fadeInDown wow" data-wow-delay="0.2s"><?= $hero_section['hero_section_deskripsi'] ?></span>
         <div class="d-flex justify-content-center">
-            <img class="animated fadeInUp wow" style="border-radius: 10px;" data-wow-delay="1s" src="<?= base_url('assets/img/snack.jpg') ?>" alt="Product">
+            <img class="animated fadeInUp wow  h-50 w-50" style="border-radius: 10px; max-width: 500px; height: auto" data-wow-delay="1s" src="<?= base_url('uploads/frontend/hero-section/') . $hero_section['hero_section_img'] ?>" alt="Product">
         </div>
     </div>
 
@@ -55,6 +60,6 @@
 </div>
 
 <div class="container mt-5 mb-0">
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, inventore doloremque. Veniam asperiores, eligendi exercitationem aperiam unde eveniet nostrum inventore dicta dolor mollitia! Ut ea alias laboriosam corrupti nisi est.</p>
+    <p><?= $data_toko['deskripsi_toko'] ?></p>
 
 </div>

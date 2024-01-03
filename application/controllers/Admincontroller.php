@@ -13,6 +13,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property Seo_m Seo_m
  * @property Stock_m Stock_m
  * @property Db db
+ * @property Herosection_m Herosection_m
  */
 
 class Admincontroller extends CI_Controller
@@ -27,6 +28,7 @@ class Admincontroller extends CI_Controller
         $this->load->model('User_m');
         $this->load->model('Seo_m');
         $this->load->model('Stock_m');
+        $this->load->model('Herosection_m');
     }
 
     public function index()
@@ -205,6 +207,17 @@ class Admincontroller extends CI_Controller
             'title' => 'Whatsapp BOT Auto REply',
             'page' => 'wa_auto_reply',
 
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function hero_section()
+    {
+        $data_hero_Section = $this->Herosection_m->findById('1');
+        $data = [
+            'title' => 'Hero Section',
+            'page' => 'hero_section',
+            'hero_section' => $data_hero_Section
         ];
         $this->load->view('admin/main', $data);
     }

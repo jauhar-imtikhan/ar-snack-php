@@ -16,6 +16,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property Cloudinary cloudinary
  * @property Db db
  * @property Seo_m Seo_m
+ * @property Herosection_m Herosection_m
  */
 
 class Restadmincontroller extends RestController
@@ -29,6 +30,7 @@ class Restadmincontroller extends RestController
         $this->load->model('user_m');
         $this->load->model('Stock_m');
         $this->load->model('Seo_m');
+        $this->load->model('Herosection_m');
     }
     public function update_profile_post()
     {
@@ -128,6 +130,8 @@ class Restadmincontroller extends RestController
         $this->form_validation->set_rules('hargajualproduk', 'Harga Jual Produk', 'required|numeric');
         $this->form_validation->set_rules('hargabeliproduk', 'Harga Beli Produk', 'required|numeric');
         $this->form_validation->set_rules('kategoriproduk', 'Kategori Produk', 'required');
+        $this->form_validation->set_rules('beratproduk', 'Berat Produk', 'required|numeric');
+        $this->form_validation->set_rules('deskripsi', 'Deskripsi Produk', 'required');
 
 
         $this->form_validation->set_message('required', '{field} harus diisi');
@@ -155,6 +159,8 @@ class Restadmincontroller extends RestController
                     'kategoriproduk' => form_error('kategoriproduk'),
                     'imageproduct' => form_error('imageproduct'),
                     'galleryproduct' => form_error('galleryproduct'),
+                    'beratproduk' => form_error('beratproduk'),
+                    'deskripsi' => form_error('deskripsi'),
                 ]
             ];
             $this->response($validation, RestController::HTTP_NOT_ACCEPTABLE);
@@ -165,9 +171,23 @@ class Restadmincontroller extends RestController
             $price = $this->input->post('hargajualproduk', true);
             $price_buy = $this->input->post('hargabeliproduk', true);
             $category = $this->input->post('kategoriproduk', true);
-
+            $weight = $this->input->post('beratproduk', true);
             $gallery = $_FILES['galleryproduct'];
 
+            $variant_nama = $this->input->post('namavariant', true);
+            $variant_size = $this->input->post('sizevariant', true);
+            $variant_harga = $this->input->post('hargavariant', true);
+            $variant_berat = $this->input->post('beratvariant', true);
+
+            $data_variant = [
+                'variant_' => [
+                    'variant_id' => $id_product,
+                    'variant_size' => $variant_size,
+                    'variant_name' => $variant_nama,
+                    'variant_price' => $variant_harga,
+                    'variant_weight' => $variant_berat
+                ]
+            ];
 
             if (!$this->upload->do_upload('imageproduct')) {
                 $msg = [
@@ -184,11 +204,14 @@ class Restadmincontroller extends RestController
                     'product_price_sell' => $price,
                     'product_price_buy' => $price_buy,
                     'product_category' => $category,
-                    'product_img' => $this->upload->data()['file_name']
+                    'product_img' => $this->upload->data()['file_name'],
+                    'product_weight' => $weight
                 ];
                 $data_detail_product = [
                     'product_detail_id' => $id_product,
-                    'img_detail' => json_encode($converted_image)
+                    'deskripsi_produk' => $this->input->post('deskripsi', true),
+                    'img_detail' => json_encode($converted_image),
+                    'varian_produk' => json_encode($data_variant)
                 ];
                 $data_stock = [
                     'product_stock_id' => $id_product,
@@ -759,6 +782,136 @@ class Restadmincontroller extends RestController
                 'message' => "Gagal menghapus auto reply"
             ];
             $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function hero_section_post()
+    {
+        $type = $this->input->post('type', true);
+
+        if ($type === 'add') {
+            $this->form_validation->set_rules('titleherosection', 'Title Hero Section', 'trim|required');
+            $this->form_validation->set_rules('deskripsiherosection', 'Deskripsi Hero Section', 'trim|required');
+
+            $this->form_validation->set_message('required', '{field} harus diisi');
+
+            if ($this->form_validation->run() === FALSE) {
+                $err = [
+                    'errors' => [
+                        'titleherosection' => form_error('titleherosection'),
+                        'deskripsiherosection' => form_error('deskripsiherosection')
+                    ]
+                ];
+
+                $this->response($err, RestController::HTTP_NOT_ACCEPTABLE);
+            } else {
+                $title = $this->input->post('titleherosection', true);
+                $deskripsi = $this->input->post('deskripsiherosection', true);
+                $data = [
+                    'hero_section_title' => $title,
+                    'hero_section_deskripsi' => $deskripsi
+                ];
+                $this->Herosection_m->create($data);
+                if ($this->db->affected_rows() > 0) {
+                    $msg = [
+                        'status' => 200,
+                        'message' => "Berhasil menambahkan hero section"
+                    ];
+                    $this->response($msg, Restcontroller::HTTP_OK);
+                } else {
+                    $msg = [
+                        'status' => 500,
+                        'message' => "Gagal menambahkan hero section"
+                    ];
+                    $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+                }
+            }
+        } else {
+            $id = $this->input->post('id', true);
+            $title = $this->input->post('titleherosection', true);
+            $deskripsi = $this->input->post('deskripsiherosection', true);
+            $data = [
+                'hero_section_title' => $title,
+                'hero_section_deskripsi' => $deskripsi
+            ];
+            $this->Herosection_m->update('hero_section_id', $id, $data);
+            if ($this->db->affected_rows() > 0) {
+                $msg = [
+                    'status' => 200,
+                    'message' => "Berhasil mengupdate hero section"
+                ];
+                $this->response($msg, Restcontroller::HTTP_OK);
+            } else {
+                $msg = [
+                    'status' => 500,
+                    'message' => "Gagal mengupdate hero section"
+                ];
+                $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+            }
+        }
+    }
+
+    public function image_hero_section_post()
+    {
+        $type = $this->input->post('type', true);
+
+        $config['upload_path'] = FCPATH . '/uploads/frontend/hero-section/';
+        $config['allowed_types'] = 'jpg|png|jpeg';
+        $config['max_size'] = 10000;
+        $config['encrypt_name'] = true;
+        $this->load->library('upload', $config);
+        if ($type === 'add') {
+            if (!$this->upload->do_upload('imageherosection')) {
+                $msg = [
+                    'status' => 500,
+                    'message' => $this->upload->display_errors()
+                ];
+                $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+            } else {
+                $data = [
+                    'hero_section_img' => $this->upload->data()['file_name']
+                ];
+                $this->Herosection_m->create($data);
+                if ($this->db->affected_rows() > 0) {
+                    $msg = [
+                        'status' => 200,
+                        'message' => "Berhasil menambahkan hero section"
+                    ];
+                    $this->response($msg, Restcontroller::HTTP_OK);
+                } else {
+                    $msg = [
+                        'status' => 500,
+                        'message' => "Gagal menambahkan hero section"
+                    ];
+                    $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+                }
+            }
+        } else {
+            if (!$this->upload->do_upload('imageherosection')) {
+                $msg = [
+                    'status' => 500,
+                    'message' => $this->upload->display_errors()
+                ];
+                $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+            } else {
+                $data = [
+                    'hero_section_img' => $this->upload->data()['file_name']
+                ];
+                $this->Herosection_m->update('hero_section_id', $this->input->post('id', true), $data);
+                if ($this->db->affected_rows() > 0) {
+                    $msg = [
+                        'status' => 200,
+                        'message' => "Berhasil mengupdate hero section"
+                    ];
+                    $this->response($msg, Restcontroller::HTTP_OK);
+                } else {
+                    $msg = [
+                        'status' => 500,
+                        'message' => "Gagal mengupdate hero section"
+                    ];
+                    $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+                }
+            }
         }
     }
 }

@@ -129,7 +129,12 @@
                         <input autocomplete="off" type="text" id="email" name="email" placeholder="Email:">
                         <input autocomplete="off" type="text" id="phone" name="phone" placeholder="No. Whatsapp:">
                         <textarea name="message" placeholder="Alamat:"></textarea>
-                        <button type="submit" class="btn btn-submit" style=":hover {color: black}">Tanya Sekarang</button>
+                        <style>
+                            #btn-tanya-sekarang:hover {
+                                background-color: rgba(176, 176, 176, 0.5);
+                            }
+                        </style>
+                        <button type="submit" class="btn btn-submit text-white" id="btn-tanya-sekarang">Tanya Sekarang</button>
                     </form>
                 </div>
                 <div class="col-md-6 padding-let-sm">
@@ -152,7 +157,7 @@
                             </div>
                         </div>
                         <div class="item-ico">
-                            <i class="fa fa-map-marker-alt"></i>
+                            <i class="fa fa-map-marker-alt" style="width: 29%;"></i>
                             <div class="ground-text">
                                 <span class="name">Alamat Toko Kami</span>
                                 <span class="des">Kwaron, Kec. Diwek, Kabupaten Jombang, Jawa Timur 61471</span>

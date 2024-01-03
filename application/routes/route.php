@@ -24,6 +24,8 @@ $route['admin/edit_kategori/(:any)']['get'] = 'admincontroller/edit_kategori/$1'
 $route['admin/stock']['get'] = 'admincontroller/stock';
 $route['admin/wa_gateway']['get'] = 'admincontroller/wa';
 $route['admin/wa_gateway/auto_reply']['get'] = 'admincontroller/wa_auto_reply';
+$route['admin/hero_section']['get'] = 'admincontroller/hero_section';
+
 
 // Route Of Landingpage Produk
 $route['produk/(:any)']['get'] = 'landingpage/produk/$1';
@@ -72,6 +74,9 @@ $route['admin/wa_gateway/add_auto_reply']['post'] = 'api/restadmincontroller/wa_
 $route['admin/wa_gateway/get_pesan_triger']['get'] = 'api/restadmincontroller/get_auto_reply';
 $route['admin/wa_gateway/update_auto_reply/(:any)']['post'] = 'api/restadmincontroller/update_auto_reply/$1';
 $route['admin/wa_gateway/delete_auto_reply/(:any)']['post'] = 'api/restadmincontroller/delete_auto_reply/$1';
+$route['admin/restadmincontroller/hero_section']['post'] = 'api/restadmincontroller/hero_section';
+$route['admin/restadmincontroller/upload_image_hero_section']['post'] = 'api/restadmincontroller/image_hero_section';
+
 
 // Route Of Auth Rest API
 $route['login']['post'] = 'api/restauthcontroller/login';

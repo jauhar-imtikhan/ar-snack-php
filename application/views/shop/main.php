@@ -1,4 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php
+$data_hero_section = $this->db->get_where("tbl_hero_section", ['hero_section_id' => '1'])->row_array();
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -84,11 +87,11 @@
             <div class="site-header-hoder"></div>
             <!-- Slider =================================================== -->
             <div class="container na-slider">
-                <h1 class="animated fadeIn wow" data-wow-delay="0.4s"><?= $data_toko['nama_toko'] ?></h1>
-                <span class="sub-title animated fadeInDown wow" data-wow-delay="0.2s">Pusat Snack Lebaran Eceran & Grosir</span>
+                <h1 class="animated fadeIn wow" data-wow-delay="0.4s"><?= $data_hero_section['hero_section_title'] ?></h1>
+                <span class="sub-title animated fadeInDown wow" data-wow-delay="0.2s"><?= $data_hero_section['hero_section_deskripsi'] ?></span>
 
                 <div class="d-flex justify-content-center">
-                    <img class="animated fadeInUp wow" data-wow-delay="1s" src="<?= base_url('assets/img/snack.jpg') ?>" style="border-radius: 10px;" alt="Product">
+                    <img class="animated fadeInUp wow  h-50 w-50" style="border-radius: 10px; max-width: 500px; height: auto" data-wow-delay="1s" src="<?= base_url('uploads/frontend/hero-section/') . $data_hero_section['hero_section_img'] ?>" alt="Product">
                 </div>
             </div>
 

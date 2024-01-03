@@ -53,12 +53,14 @@
                                 <select name="" id="" class="form-control">
                                     <option value="">Pilih Varian</option>
                                     <?php
-                                    $variants = json_decode($product['varian_produk']);
+                                    $variants = $this->db->get_where('tbl_product_variant', ['variant_product_id' => $product['id_produk']])->result_array();
+                                    // var_dump($variants);
 
-                                    if ($variants !== [""]) {
+                                    if ($variants) {
 
                                         foreach ($variants as $variant) {
-                                            echo '<option value="' . $variant . '">' . $variant . '</option>';
+                                            // print_r($variant);
+                                            echo '<option value="' . $variant['variant_name'] . '">' . $variant['variant_name'] . '</option>';
                                         }
                                     } else {
                                         echo '<option value="">Tidak ada varian</option>';
