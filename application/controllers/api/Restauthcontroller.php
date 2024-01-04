@@ -56,6 +56,7 @@ class Restauthcontroller extends RestController
                         if ($user['role'] === 'administrator') {
                             $data = [
                                 'user_id' => $user['user_id'],
+                                'role' => $user['role'],
                             ];
                             $this->session->set_userdata($data);
                             $this->response([
@@ -66,16 +67,18 @@ class Restauthcontroller extends RestController
                         } elseif ($user['role'] === 'user') {
                             $data = [
                                 'user_id' => $user['user_id'],
+                                'role' => $user['role'],
                             ];
                             $this->session->set_userdata($data);
                             $this->response([
                                 'status' => 200,
                                 'message' => 'Login Success',
-                                'url' => base_url('user')
+                                'url' => base_url('user/account')
                             ], RestController::HTTP_OK);
                         } else {
                             $data = [
                                 'user_id' => $user['user_id'],
+                                'role' => $user['role'],
                             ];
                             $this->session->set_userdata($data);
                             $this->response([

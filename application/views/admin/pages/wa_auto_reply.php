@@ -134,17 +134,15 @@
                 // console.log(res);
 
                 $.each(res.data, function(i, key) {
-
+                    const badge = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'][Math.floor(Math.random() * 8)];
                     let element = `  <div class="card">
                 <div class="card-header" id="body${key.wa_bot_id}">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex  align-items-center">
                     
-                    <h2 class="mb-0">
-                        <button class="btn btn-block btn-link text-left" type="button" data-toggle="collapse" data-target="#child${key.wa_bot_id}" aria-expanded="true" aria-controls="collapseOne">
-                       Data Triger "${key.wa_bot_pesan}"
-                        </button>
-                    </h2>
-                  
+                    <h5 class="mb-0 flex-grow-1">
+                       Triger Pesan <span class="badge badge-${badge}">${key.wa_bot_pesan}</span>
+                    </h5>
+                    <button class="btn btn-warning btn-sm mr-2" type="button" data-toggle="collapse" data-target="#child${key.wa_bot_id}" aria-expanded="true" aria-controls="collapseOne"><i class="fas fa-pen"></i></button>
                     <button type="buton" class="btn btn-danger btn-sm" data-id="${key.wa_bot_id}" onclick="hapusAutoReply(this)"><i class="fas fa-trash"></i></button>
                    
                     </div>

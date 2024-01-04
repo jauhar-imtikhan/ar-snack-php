@@ -13,7 +13,7 @@
             border: 1px solid #dee2e6;
         }
     </style>
-    <div class="row p-5">
+    <div class="row p-5 animated fadeIn wow" data-wow-delay="0.5s">
         <div class="col-12 col-md-6">
             <?php foreach ($carts as $cart) {
                 echo cart_list($cart['cart_product_img'], $cart['cart_product_name'], $cart['cart_qty'], $cart['cart_id']);

@@ -102,7 +102,7 @@ function countPaymentTotal()
 {
     /** @var \CodeIgniter $ci */
     $ci = get_instance();
-    $sql = "SELECT COUNT('invoice_id') AS total_payment FROM tbl_invoice";
+    $sql = "SELECT COUNT('sales_data_id') AS total_payment FROM tbl_sales_data";
     $user = $ci->db->query($sql)->row();
     return $user->total_payment;
 }
@@ -111,7 +111,7 @@ function countTotalPendapatan()
 {
     /** @var \CodeIgniter $ci */
     $ci = get_instance();
-    $sql = "SELECT SUM(invoice_total_price) AS total FROM tbl_invoice";
+    $sql = "SELECT SUM(sales_data_total) AS total FROM tbl_sales_data";
     $total = $ci->db->query($sql)->row();
 
     if ($total->total == null) {
@@ -125,4 +125,20 @@ function cleanString(string $string)
 {
     $cleanedString = preg_replace('/[^0-9]/', '', $string);
     return $cleanedString;
+}
+
+function GenerateInvoiceCode(string $preffix, int $length = 10)
+{
+    return $preffix . substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length);
+}
+
+function check_role()
+{
+
+    /** @var \CodeIgniter $ci */
+    $ci = get_instance();
+    $user = $ci->session->userdata('role');
+    if ($user !== 'administrator') {
+        header('location: ' . base_url());
+    }
 }

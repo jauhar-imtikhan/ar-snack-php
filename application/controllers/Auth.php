@@ -33,7 +33,7 @@ class Auth extends CI_Controller
     public function logout()
     {
         $param = [
-            'user_id'
+            'user_id', 'role'
         ];
         $this->session->unset_userdata($param);
         redirect('login');

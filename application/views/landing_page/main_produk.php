@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php
 $data_hero_section = $this->db->get_where("tbl_hero_section", ['hero_section_id' => '1'])->row_array();
+$data_favicon = $this->db->get_where('tbl_favicon', ['favicon_id' => '1'])->row_array();
 ?>
 <!DOCTYPE html>
 
@@ -13,7 +14,7 @@ $data_hero_section = $this->db->get_where("tbl_hero_section", ['hero_section_id'
     <meta name="description" content="<?= $data_seo['meta_description'] ?>" />
     <meta name="keywords" content=<?= $data_seo['meta_keyword'] ?>" />
     <meta name="author" content="<?= $data_seo['meta_author'] ?>" />
-
+    <?= $data_favicon['favicon_field'] ?>
 
     <!-- Bootstrap  -->
     <link rel="stylesheet" href="<?= base_url('assets/') ?>css/bootstrap.css">
@@ -97,7 +98,7 @@ $data_hero_section = $this->db->get_where("tbl_hero_section", ['hero_section_id'
         </div>
 
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center animated fadeIn wow" data-wow-delay="0.4s">
         <div class="row mt-5 p-5">
             <?php
 

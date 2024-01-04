@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php
 $data_hero_section = $this->db->get_where("tbl_hero_section", ['hero_section_id' => '1'])->row_array();
+$data_favicon = $this->db->get_where('tbl_favicon', ['favicon_id' => '1'])->row_array();
 ?>
 <!DOCTYPE html>
 
@@ -13,7 +14,7 @@ $data_hero_section = $this->db->get_where("tbl_hero_section", ['hero_section_id'
     <meta name="description" content="<?= $data_seo['meta_description'] ?>" />
     <meta name="keywords" content=<?= $data_seo['meta_keyword'] ?>" />
     <meta name="author" content="<?= $data_seo['meta_author'] ?>" />
-
+    <?= $data_favicon['favicon_field'] ?>
 
     <!-- Bootstrap  -->
     <link rel="stylesheet" href="<?= base_url('assets/') ?>css/bootstrap.css">
@@ -91,7 +92,7 @@ $data_hero_section = $this->db->get_where("tbl_hero_section", ['hero_section_id'
                 <span class="sub-title animated fadeInDown wow" data-wow-delay="0.2s"><?= $data_hero_section['hero_section_deskripsi'] ?></span>
 
                 <div class="d-flex justify-content-center">
-                    <img class="animated fadeInUp wow  h-50 w-50" style="border-radius: 10px; max-width: 500px; height: auto" data-wow-delay="1s" src="<?= base_url('uploads/frontend/hero-section/') . $data_hero_section['hero_section_img'] ?>" alt="Product">
+                    <img class="animated fadeIn wow  h-50 w-50" style="border-radius: 10px; max-width: 500px; height: auto" data-wow-delay="0.5s" src="<?= base_url('uploads/frontend/hero-section/') . $data_hero_section['hero_section_img'] ?>" alt="Product">
                 </div>
             </div>
 
@@ -99,9 +100,9 @@ $data_hero_section = $this->db->get_where("tbl_hero_section", ['hero_section_id'
 
     </div>
     <div class="d-flex justify-content-center">
-        <h1 class="animated fadeInUp mt-3 wow" data-wow-delay="1.2s"><?= $title ?></h1>
+        <h1 class="animated fadeIn mt-3 wow" data-wow-delay="1.2s"><?= $title ?></h1>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center animated fadeIn wow" data-wow-delay="1.2s">
         <div class="row p-2 ">
             <?php
             if (empty($page)) {
@@ -119,8 +120,8 @@ $data_hero_section = $this->db->get_where("tbl_hero_section", ['hero_section_id'
 
     </div>
 
-    <div class="d-flex justify-content-center">
-        <nav aria-label="Page navigation example">
+    <div class="d-flex justify-content-center ">
+        <nav class="animated fadeIn wow" data-wow-delay="0.4s">
             <?php if ($this->uri->segment(2) == "") : ?>
                 <?php error_reporting(0) ?>
             <?php endif; ?>

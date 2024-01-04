@@ -71,6 +71,7 @@ class Shopcontroller extends CI_Controller
         $data_toko = $this->Configtoko_m->findFirst('config_toko_id', '1');
         $data_user = $this->User_m->findFirst($this->session->userdata('user_id'), 'user_id');
         $data_invoices = $this->Invoice_m->count_invoice($this->session->userdata('user_id'));
+        $invoices = $this->db->get_where('tbl_invoice', ['invoice_user_id' => $this->session->userdata('user_id')])->row_array();
         $data = [
             'title' => 'Akun',
             'page' => 'account',
@@ -78,6 +79,7 @@ class Shopcontroller extends CI_Controller
             'data_toko' => $data_toko,
             'user' => $data_user,
             'notif_invoice' => $data_invoices,
+            'invoices' => $invoices,
         ];
         $this->load->view('shop/main', $data);
     }

@@ -48,8 +48,8 @@ $hero_section = $this->db->get_where('tbl_hero_section', ['hero_section_id' => '
     <div class="site-header-hoder"></div>
     <!-- Slider =================================================== -->
     <div class="container na-slider">
-        <h1 class="animated fadeIn wow" data-wow-delay="0.4s"><?= $hero_section['hero_section_title'] ?></h1>
-        <span class="sub-title animated fadeInDown wow" data-wow-delay="0.2s"><?= $hero_section['hero_section_deskripsi'] ?></span>
+        <h1 class="animated fadeIn wow" data-wow-delay="0.3s"><?= $hero_section['hero_section_title'] ?></h1>
+        <span class="sub-title animated fadeInDown wow" data-wow-delay="0.4s"><?= $hero_section['hero_section_deskripsi'] ?></span>
         <div class="d-flex justify-content-center">
             <img class="animated fadeInUp wow  h-50 w-50" style="border-radius: 10px; max-width: 500px; height: auto" data-wow-delay="1s" src="<?= base_url('uploads/frontend/hero-section/') . $hero_section['hero_section_img'] ?>" alt="Product">
         </div>
@@ -59,7 +59,7 @@ $hero_section = $this->db->get_where('tbl_hero_section', ['hero_section_id' => '
 
 </div>
 
-<div class="container mt-5 mb-0">
+<div class="container mt-5 mb-0 animated fadeIn wow" data-wow-delay="0.5s">
     <p><?= $data_toko['deskripsi_toko'] ?></p>
 
 </div>

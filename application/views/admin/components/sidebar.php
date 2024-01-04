@@ -39,6 +39,7 @@
             <a href="javascript: void(0);">
                 <i class="fab fa-whatsapp"></i>
                 <span> Whatsapp Gateway</span>
+                <span class="menu-arrow"></span>
             </a>
             <ul class="nav-second-level" aria-expanded="false">
                 <li><a href="<?= site_url('admin/wa_gateway') ?>">Setting</a></li>

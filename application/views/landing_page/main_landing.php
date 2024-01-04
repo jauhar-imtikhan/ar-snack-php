@@ -1,4 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php $data_favicon = $this->db->get_where('tbl_favicon', ['favicon_id' => '1'])->row_array() ?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -10,7 +11,7 @@
     <meta name="description" content="<?= $data_seo['meta_description'] ?>" />
     <meta name="keywords" content="<?= $data_seo['meta_keyword'] ?>" />
     <meta name="author" content="<?= $data_seo['meta_author'] ?>" />
-
+    <?= $data_favicon['favicon_field'] ?>
 
     <!-- Bootstrap  -->
     <link rel="stylesheet" href="<?= base_url('assets/') ?>css/bootstrap.css">
@@ -122,18 +123,35 @@
             <div class="row">
 
                 <div class="col-md-6">
+                    <style>
+                        #btn-tanya-sekarang:hover {
+                            background-color: rgba(176, 176, 176, 0.5);
+                        }
+
+                        #namalengkap:focus {
+                            outline: none;
+                        }
+
+                        #email:focus {
+                            outline: none;
+                        }
+
+                        #phone:focus {
+                            outline: none;
+                        }
+
+                        #messages:focus {
+                            outline: none;
+                        }
+                    </style>
                     <h2 class="box-title animated fadeInLeft wow" data-wow-delay="0.2s">Tanya Seputar</h2>
                     <p class="animated fadeInLeft wow" data-wow-delay="0.2s">Ar Snack</p>
                     <form class="form-request nimated fadeInLeft wow" data-wow-delay="0.4s" method="post" name="contact_form" action="">
                         <input autocomplete="off" type="text" id="namalengkap" name="name" placeholder="Nama Lengkap:">
                         <input autocomplete="off" type="text" id="email" name="email" placeholder="Email:">
                         <input autocomplete="off" type="text" id="phone" name="phone" placeholder="No. Whatsapp:">
-                        <textarea name="message" placeholder="Alamat:"></textarea>
-                        <style>
-                            #btn-tanya-sekarang:hover {
-                                background-color: rgba(176, 176, 176, 0.5);
-                            }
-                        </style>
+                        <textarea name="message" id="messages" placeholder="Alamat:"></textarea>
+
                         <button type="submit" class="btn btn-submit text-white" id="btn-tanya-sekarang">Tanya Sekarang</button>
                     </form>
                 </div>
@@ -141,28 +159,30 @@
                     <h2 class="box-title animated fadeInRight wow" data-wow-delay="0.2s">Informasi Kontak</h2>
                     <p class="animated fadeInRight wow" data-wow-delay="0.2s">Ar Snack</p>
                     <div class="ground-information animated fadeInRight wow" data-wow-delay="0.4s">
-
-                        <div class="item-ico">
+                        <?php
+                        $em = $this->db->get_where('tbl_config_toko', ['config_toko_id' => 1])->row_array();
+                        ?>
+                        <a href="mailto:<?= $em['email_toko'] ?>" target="_blank" class="item-ico text-white" style="text-decoration: none;">
                             <i class="fa fa-envelope"></i>
                             <div class="ground-text">
                                 <span class="name">Email</span>
-                                <span class="des">admin@arsnack.com</span>
+                                <span class="des"><?= $em['email_toko'] ?></span>
                             </div>
-                        </div>
-                        <div class="item-ico">
+                        </a>
+                        <a href="https://wa.me/6285748840499?text=Hallo min" style="text-decoration: none;" target="_blank" class="item-ico text-white">
                             <i class="fa fa-phone"></i>
                             <div class="ground-text">
                                 <span class="name">NO. Whatsapp</span>
-                                <span class="des">+62 85748840499</span>
+                                <span class="des">Tanya Langsung Di Whatsapp</span>
                             </div>
-                        </div>
-                        <div class="item-ico">
+                        </a>
+                        <a href="https://maps.app.goo.gl/cLcFf5TBiK9ig7o68" target="_blank" class="item-ico text-white" style="text-decoration: none;">
                             <i class="fa fa-map-marker-alt" style="width: 29%;"></i>
                             <div class="ground-text">
                                 <span class="name">Alamat Toko Kami</span>
                                 <span class="des">Kwaron, Kec. Diwek, Kabupaten Jombang, Jawa Timur 61471</span>
                             </div>
-                        </div>
+                        </a>
 
                     </div>
                 </div>

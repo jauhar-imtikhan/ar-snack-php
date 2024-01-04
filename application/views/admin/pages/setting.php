@@ -38,6 +38,11 @@
                     Sender Email
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="<?= site_url('settings?page=favicon') ?>" aria-expanded="true" class="nav-link">
+                    Favicon
+                </a>
+            </li>
         </ul>
         <div class="tab-content">
             <?php if ($_GET['page'] == 'pengaturan_toko') { ?>
@@ -184,7 +189,7 @@
                     <!-- Personal-Information -->
                 </div>
 
-            <?php } else { ?>
+            <?php } elseif ($_GET['page'] == 'sender_email') { ?>
                 <div class="tab-pane active" id="seo">
                     <!-- Personal-Information -->
                     <div class="panel card panel-fill">
@@ -223,6 +228,32 @@
                     </div>
                     <!-- Personal-Information -->
                 </div>
+            <?php } else { ?>
+                <div class="tab-pane active" id="favicon">
+                    <style>
+                        .CodeMirror,
+                        .cm-s-monokai {
+                            border-radius: 10px;
+                            padding: 10px;
+                            margin-bottom: 0;
+                        }
+                    </style>
+                    <div class="panel card panel-fill">
+                        <div class="card-header">
+                            <h5 class="font-16 m-1">Pengaturan Favicon</h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="" method="post" class="form-update-favicon">
+                                <textarea style="border-radius: 10px; opacity: 0;" name="faviconField" id="faviconField"><?= trim($data_favicon['favicon_field']) ?></textarea>
+                                <div class="form-group mt-3">
+                                    <button type="submit" class="btn btn-primary float-right">Simpan</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <!-- Personal-Information -->
+                </div>
             <?php } ?>
         </div>
 
@@ -233,6 +264,10 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        CodeMirror.fromTextArea(document.getElementById("faviconField"), {
+            mode: "htmlmixed",
+            theme: "monokai"
+        });
         // previewTemplateEmail()
         $('#showapiemail').click(function() {
             if ($('#keyemail').attr('type') == 'password') {
@@ -368,6 +403,39 @@
                     } else {
                         Toast.fire({
                             icon: 'error',
+                            title: err.responseJSON.message
+                        })
+                    }
+                }
+            })
+        })
+
+        $('.form-update-favicon').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '<?= site_url('admin/update_favicon') ?>',
+                method: 'post',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                beforeSend: function() {
+                    $('button[type="submit"]').prop('disabled', true)
+                },
+                success: function(res) {
+                    if (res.status == 200) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.message
+                        })
+                    }
+                },
+                complete: function() {
+                    $('button[type="submit"]').prop('disabled', false)
+                },
+                error: function(err) {
+                    if (err.status === 500) {
+                        Toast.fire({
+                            icon: 'warning',
                             title: err.responseJSON.message
                         })
                     }

@@ -54,7 +54,8 @@ $route['rest/shop/update_payment']['post'] = 'api/restshopcontroller/updateCheck
 $route['rest/shop/updateProfile']['post'] = 'api/restshopcontroller/updateProfile';
 $route['rest/shop/orderList']['get'] = 'api/restshopcontroller/orderList';
 $route['rest/shop/tracking_paket/(:any)/(:any)']['get'] = 'api/restshopcontroller/tracking_paket/$1/$2';
-
+$route['rest/shop/save_sales_data']['post'] = 'api/restshopcontroller/save_sales_data';
+$route['rest/shop/delete_akun/(:any)/(:any)']['get'] = 'api/restshopcontroller/delete_akun/$1/$2';
 // Route Of Admin Rest API
 $route['update_profile']['post'] = 'api/restadmincontroller/update_profile';
 $route['update_password']['post'] = 'api/restadmincontroller/update_password';
@@ -76,6 +77,12 @@ $route['admin/wa_gateway/update_auto_reply/(:any)']['post'] = 'api/restadmincont
 $route['admin/wa_gateway/delete_auto_reply/(:any)']['post'] = 'api/restadmincontroller/delete_auto_reply/$1';
 $route['admin/restadmincontroller/hero_section']['post'] = 'api/restadmincontroller/hero_section';
 $route['admin/restadmincontroller/upload_image_hero_section']['post'] = 'api/restadmincontroller/image_hero_section';
+$route['admin/get_variant/(:any)']['get'] = 'api/restadmincontroller/variant/$1';
+$route['admin/get_variant_by_id/(:any)']['get'] = 'api/restadmincontroller/variant_by_id/$1';
+$route['admin/create_variant']['post'] = 'api/restadmincontroller/create_variant';
+$route['admin/delete_variant/(:any)/(:any)']['post'] = 'api/restadmincontroller/delete_variant/$1/$2';
+$route['admin/update_variant']['post'] = 'api/restadmincontroller/update_variant';
+$route['admin/update_favicon']['post'] = 'api/restadmincontroller/update_favicon';
 
 
 // Route Of Auth Rest API

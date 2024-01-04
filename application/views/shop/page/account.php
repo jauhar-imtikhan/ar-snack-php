@@ -28,8 +28,9 @@
         <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Profile</a>
             <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Order <span class="badge badge-warning"><?= $notif_invoice ?></span></a>
-            <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+
             <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+            <a class="list-group-item list-group-item-action text-danger" href="<?= site_url('logout') ?>">Logout <i class="fas fa-sign-out-alt"></i></a>
         </div>
     </div>
     <div class="col-12 col-md-8 mt-3">
@@ -81,8 +82,14 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">message</div>
-            <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">Setting</div>
+            <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Settings</h5>
+                        <button type="button" onclick="deleteAccount('<?= $user['user_id'] ?>')" class="btn btn-danger"><i class="fas fa-trash"></i> Delete Akun</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -99,8 +106,8 @@
             <div class="modal-body" style="background: white;">
                 <ul class="list-group" id="renderTracking"></ul>
             </div>
-            <div class="modal-footer" style="background: white; border-radius: 0 0 10px 10px;">
-                <button class="btn btn-primary" type="button" onclick="orderDelivered()">Pesanan, Sudah Saya Terima</button>
+            <div class="modal-footer" id="modalOrderFooter" style="background: white; border-radius: 0 0 10px 10px;">
+
             </div>
         </div>
     </div>
@@ -160,7 +167,7 @@
             url: '<?= site_url('rest/shop/orderList') ?>',
             method: 'get',
             success: function(res) {
-                console.log(res);
+                // console.log(res);
                 $.each(res, function(i, key) {
                     let btn = `<div class="d-inline-flex align-items-center" style="gap: 9px;">
                                  <button class="btn btn-warning btn-sm text-white" type="button" data-waybill="${key.invoice_waybill}" data-courier="${key.invoice_expedition_code}" data-id="${key.invoice_id}" onclick="editOrder(this)"><i class="fas fa-eye"></i></button>
@@ -178,7 +185,10 @@
                 })
             },
             error: function(err) {
-                console.log(err);
+                // console.log(err);
+                if (err.status == 500 && err.responseJSON.message == "Gagal mengambil data order") {
+                    $('#renderOrderList').append('<tr><td colspan="6" class="text-center text-danger">Anda tidak memiliki data order apapun!</td></tr>')
+                }
             }
         })
     }
@@ -194,6 +204,7 @@
             success: function(data) {
                 let res = $.parseJSON(data);
                 console.log(res);
+                $('#renderTracking').empty()
                 $.each(res.history, function(i, key) {
                     let status = ""
                     if (key.status == 'confirmed') {
@@ -215,7 +226,7 @@
     </li>`
                     $('#renderTracking').append(element)
                 })
-
+                $('#modalOrderFooter').html(` <button class="btn btn-primary" type="button" onclick="orderDelivered('${id}')">Pesanan, Sudah Saya Terima</button>`)
 
             },
             error: function(err) {
@@ -224,7 +235,7 @@
         })
     }
 
-    function orderDelivered() {
+    function orderDelivered(id) {
         $('#modalOrder').modal('hide')
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -244,11 +255,26 @@
 
         }).then((result) => {
             if (result.isConfirmed) {
-                swalWithBootstrapButtons.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success"
-                });
+                $.ajax({
+                    url: '<?= site_url('rest/shop/save_sales_data') ?>',
+                    method: 'post',
+                    data: {
+                        _id: id,
+                    },
+                    success: function(res) {
+                        if (res.status == 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Terima Kasih',
+                                text: 'Telah Belanja Di Toko Kami',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload()
+                                }
+                            })
+                        }
+                    }
+                })
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -258,6 +284,53 @@
                     text: "Your imaginary file is safe :)",
                     icon: "error"
                 });
+            }
+        });
+    }
+
+    function deleteAccount(id) {
+        Swal.fire({
+            title: "Masukkan Password Anda",
+            input: "password",
+            inputAttributes: {
+                autocapitalize: "off"
+            },
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            cancelButtonText: "Kembali",
+            showLoaderOnConfirm: true,
+            preConfirm: async (login) => {
+                try {
+                    const githubUrl = `<?= site_url('rest/shop/delete_akun/') ?>${login}/<?= $user['user_id'] ?>`;
+                    const response = await fetch(githubUrl);
+                    // console.log(response);
+                    if (!response.ok) {
+                        let data = await response.json();
+                        if (response.status == 404) {
+                            return Swal.showValidationMessage(`${JSON.stringify("Maaf, Silahkan Coba Lagi")}`);
+                        } else if (response.status == 400) {
+                            return Swal.showValidationMessage(`${data.message}`);
+                            // console.log(data.message);
+                        } else {
+                            return Swal.showValidationMessage(`${JSON.stringify("Maaf, Silahkan Coba Lagi")}`);
+                        }
+                    }
+                    return response.json();
+                } catch (error) {
+                    Swal.showValidationMessage(`Gagal: ${error}`);
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (result.value.status == 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: result.value.message,
+                    }).then((success) => {
+                        window.location.href = result.value.url;
+                    })
+                }
             }
         });
     }

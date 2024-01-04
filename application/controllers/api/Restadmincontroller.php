@@ -132,6 +132,7 @@ class Restadmincontroller extends RestController
         $this->form_validation->set_rules('kategoriproduk', 'Kategori Produk', 'required');
         $this->form_validation->set_rules('beratproduk', 'Berat Produk', 'required|numeric');
         $this->form_validation->set_rules('deskripsi', 'Deskripsi Produk', 'required');
+        $this->form_validation->set_rules('stockproduk', 'Stock Produk', 'required|numeric');
 
 
         $this->form_validation->set_message('required', '{field} harus diisi');
@@ -161,11 +162,12 @@ class Restadmincontroller extends RestController
                     'galleryproduct' => form_error('galleryproduct'),
                     'beratproduk' => form_error('beratproduk'),
                     'deskripsi' => form_error('deskripsi'),
+                    'stockproduk' => form_error('stockproduk'),
                 ]
             ];
             $this->response($validation, RestController::HTTP_NOT_ACCEPTABLE);
         } else {
-            $id_product = generaterandomint(8);
+            $id_product = $this->input->post('produk_id', true);
             $kode = $this->input->post('kodeproduk', true);
             $name = $this->input->post('namaproduk', true);
             $price = $this->input->post('hargajualproduk', true);
@@ -174,20 +176,6 @@ class Restadmincontroller extends RestController
             $weight = $this->input->post('beratproduk', true);
             $gallery = $_FILES['galleryproduct'];
 
-            $variant_nama = $this->input->post('namavariant', true);
-            $variant_size = $this->input->post('sizevariant', true);
-            $variant_harga = $this->input->post('hargavariant', true);
-            $variant_berat = $this->input->post('beratvariant', true);
-
-            $data_variant = [
-                'variant_' => [
-                    'variant_id' => $id_product,
-                    'variant_size' => $variant_size,
-                    'variant_name' => $variant_nama,
-                    'variant_price' => $variant_harga,
-                    'variant_weight' => $variant_berat
-                ]
-            ];
 
             if (!$this->upload->do_upload('imageproduct')) {
                 $msg = [
@@ -209,13 +197,12 @@ class Restadmincontroller extends RestController
                 ];
                 $data_detail_product = [
                     'product_detail_id' => $id_product,
-                    'deskripsi_produk' => $this->input->post('deskripsi', true),
+                    'deskripsi_produk' => $this->input->post('deskripsi'),
                     'img_detail' => json_encode($converted_image),
-                    'varian_produk' => json_encode($data_variant)
                 ];
                 $data_stock = [
                     'product_stock_id' => $id_product,
-                    'stock_product' => 0
+                    'stock_product' => $this->input->post('stockproduk', true),
                 ];
 
                 $this->db->insert('tbl_product_stock', $data_stock);
@@ -237,6 +224,156 @@ class Restadmincontroller extends RestController
                     $this->response($msg, RestController::HTTP_INTERNAL_ERROR);
                 }
             }
+        }
+    }
+
+    public function create_variant_post()
+    {
+        $this->form_validation->set_rules('namavariant', 'Nama Variant', 'required|is_unique[tbl_product_variant.variant_name]');
+        $this->form_validation->set_rules('sizevariant', 'Size Variant', 'required|is_unique[tbl_product_variant.variant_size]');
+        $this->form_validation->set_rules('hargavariant', 'Harga Variant', 'required|numeric');
+        $this->form_validation->set_rules('beratvariant', 'Berat Variant', 'required|numeric');
+
+        $this->form_validation->set_message('required', '{field} harus diisi');
+        $this->form_validation->set_message('is_unique', '{field} sudah terdaftar');
+        $this->form_validation->set_message('numeric', '{field} harus berupa angka');
+
+        if ($this->form_validation->run() === FALSE) {
+            $err = [
+                'errors' => [
+                    'namavariant' => form_error('namavariant'),
+                    'sizevariant' => form_error('sizevariant'),
+                    'hargavariant' => form_error('hargavariant'),
+                    'beratvariant' => form_error('beratvariant'),
+                ]
+            ];
+            $this->response($err, RestController::HTTP_NOT_ACCEPTABLE);
+        } else {
+            $id_product = $this->input->post('idproduct', true);
+            $variant_nama = $this->input->post('namavariant', true);
+            $variant_size = $this->input->post('sizevariant', true);
+            $variant_harga = $this->input->post('hargavariant', true);
+            $variant_berat = $this->input->post('beratvariant', true);
+
+            $data = [
+                'variant_product_id' => $id_product,
+                'variant_name' => $variant_nama,
+                'variant_size' => $variant_size,
+                'variant_price' => $variant_harga,
+                'variant_weight' => $variant_berat
+            ];
+            $this->db->insert('tbl_product_variant', $data);
+            if ($this->db->affected_rows() > 0) {
+                $msg = [
+                    'status' => 200,
+                    'message' => 'Variant berhasil ditambahkan'
+                ];
+                $this->response($msg, RestController::HTTP_OK);
+            } else {
+                $msg = [
+                    'status' => 500,
+                    'message' => 'Variant gagal ditambahkan'
+                ];
+                $this->response($msg, RestController::HTTP_INTERNAL_ERROR);
+            }
+        }
+    }
+
+    public function variant_get($id)
+    {
+        $query = $this->db->get_where('tbl_product_variant', ['variant_product_id' => $id])->result_array();
+        if ($query) {
+            $msg = [
+                'status' => 200,
+                'data' => $query
+            ];
+            $this->response($msg, RestController::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'data' => $query
+            ];
+            $this->response($msg, RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function variant_by_id_get($id)
+    {
+        $query = $this->db->get_where('tbl_product_variant', ['variant_id' => $id])->row_array();
+        if ($query) {
+            $msg = [
+                'status' => 200,
+                'data' => $query
+            ];
+            $this->response($msg, RestController::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'data' => $query
+            ];
+            $this->response($msg, RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function delete_variant_post($id, $product_id)
+    {
+        $this->db->where('variant_id', $id);
+        $this->db->delete('tbl_product_variant');
+        if ($this->db->affected_rows() > 0) {
+            $cek_before = $this->db->get_where('tbl_product_variant', ['variant_product_id' => $product_id])->row_array();
+
+            if ($cek_before) {
+                $msg = [
+                    'status' => 200,
+                    'message' => 'Variant berhasil di hapus'
+                ];
+                $this->response($msg, RestController::HTTP_OK);
+            } else {
+                $msg = [
+                    'status' => 200,
+                    'message' => 'Variant berhasil di hapus',
+                    'return' => false
+                ];
+                $this->response($msg, RestController::HTTP_OK);
+            }
+        } else {
+            $msg = [
+                'status' => 500,
+                'message' => 'Variant gagal di hapus'
+            ];
+            $this->response($msg, RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function update_variant_post()
+    {
+        $nama = $this->input->post('namavariante', true);
+        $size = $this->input->post('sizevariante', true);
+        $harga = $this->input->post('hargavariante', true);
+        $berat = $this->input->post('beratvariante', true);
+        $id = $this->input->post('idproducte', true);
+
+        $data = [
+            'variant_name' => $nama,
+            'variant_size' => $size,
+            'variant_price' => $harga,
+            'variant_weight' => $berat
+        ];
+
+        $this->db->where('variant_id', $id);
+        $this->db->update('tbl_product_variant', $data);
+        if ($this->db->affected_rows() > 0) {
+            $msg = [
+                'status' => 200,
+                'message' => 'Variant berhasil di update'
+            ];
+            $this->response($msg, RestController::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'message' => 'Variant gagal di update'
+            ];
+            $this->response($msg, RestController::HTTP_INTERNAL_ERROR);
         }
     }
 
@@ -291,6 +428,7 @@ class Restadmincontroller extends RestController
         $sql2 = "SELECT * FROM tbl_detail_products WHERE product_detail_id = '$id'";
         $pr2 = $this->Product_m->query($sql2)->row_array();
         $gallery = $_FILES['galleryproduct'];
+        $changes = $this->input->post('gallery', true);
 
         if (!$this->upload->do_upload('imageproduct')) {
             $uploaded_gallery = $this->__uploadMultipleFile('uploads/foto-product/', $gallery);
@@ -311,17 +449,33 @@ class Restadmincontroller extends RestController
             $data_stock = [
                 'stock_product' => $stok
             ];
-            $data_detail_product = [
-                'img_detail' => json_encode($uploaded_gallery)
-            ];
-            $this->Product_m->updateDetail($id, $data_detail_product);
-            $this->Product_m->update('product_id', $id, $data);
-            $this->Stock_m->update($id, $data_stock);
-            $msg = [
-                'status' => 200,
-                'message' => 'Produk Berhasil Di Update'
-            ];
-            $this->response($msg, RestController::HTTP_OK);
+
+            if ($changes === true) {
+                $data_detail_product = [
+                    'deskripsi_produk' => $this->input->post('deskripsi')
+                ];
+                $this->Product_m->updateDetail($id, $data_detail_product);
+                $this->Product_m->update('product_id', $id, $data);
+                $this->Stock_m->update($id, $data_stock);
+                $msg = [
+                    'status' => 200,
+                    'message' => 'Produk Berhasil Di Update'
+                ];
+                $this->response($msg, RestController::HTTP_OK);
+            } else {
+                $data_detail_product = [
+                    'deskripsi_produk' => $this->input->post('deskripsi'),
+                    'img_detail' => json_encode($uploaded_gallery),
+                ];
+                $this->Product_m->updateDetail($id, $data_detail_product);
+                $this->Product_m->update('product_id', $id, $data);
+                $this->Stock_m->update($id, $data_stock);
+                $msg = [
+                    'status' => 200,
+                    'message' => 'Produk Berhasil Di Update'
+                ];
+                $this->response($msg, RestController::HTTP_OK);
+            }
         } else {
             $uploaded_gallery = $this->__uploadMultipleFile('uploads/foto-product/', $gallery);
             if ($pr['product_img'] != $_FILES['imageproduct']['name']) {
@@ -912,6 +1066,30 @@ class Restadmincontroller extends RestController
                     $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
                 }
             }
+        }
+    }
+
+    public function update_favicon_post()
+    {
+        $text = $this->input->post('faviconField');
+        $data = [
+            'favicon_field' => $text
+        ];
+        $this->db->where('favicon_id', '1');
+        $this->db->update('tbl_favicon', $data);
+
+        if ($this->db->affected_rows() > 0) {
+            $msg = [
+                'status' => 200,
+                'message' => "Berhasil mengupdate favicon"
+            ];
+            $this->response($msg, Restcontroller::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+                'message' => "Gagal mengupdate favicon"
+            ];
+            $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
         }
     }
 }

@@ -430,7 +430,7 @@ class Restshopcontroller extends RestController
             ];
             $this->response($msg, RestController::HTTP_BAD_REQUEST);
         } else {
-            $invoice_code = generateRandomString(20);
+            $invoice_code = GenerateInvoiceCode('ARSNACK-', 20);
             $checkout_id = generaterandomint(10);
             $expedition = $this->input->post('expedition', true);
             $expedition_id = $this->input->post('expedition_id', true);
@@ -579,6 +579,59 @@ Total Pesanan : ' . Rp($invoice['invoice_total_price']) . '
     {
         $bitreship = $this->pengiriman->tracking($waybil, $kurir);
         $this->response($bitreship, RestController::HTTP_OK);
+    }
+
+    public function save_sales_data_post()
+    {
+        $user_id = $this->input->post('_id', true);
+        $datas = $this->db->get_where(
+            'tbl_invoice',
+            ['invoice_id' => $user_id, 'invoice_user_id' => $this->session->userdata('user_id')]
+        )->row_array();
+
+        $data = [
+            'sales_data_customer_id' => $datas['invoice_user_id'],
+            'sales_data_total' => $datas['invoice_total_price'],
+            'sales_date' => $datas['invoice_date'],
+            'sales_data_product' => $datas['invoice_product'],
+        ];
+
+        $this->db->insert('tbl_sales_data', $data);
+        if ($this->db->affected_rows() > 0) {
+            $this->db->delete('tbl_invoice', ['invoice_user_id' => $this->session->userdata('user_id'), 'invoice_id' => $user_id]);
+            $msg = [
+                'status' => 200,
+            ];
+            $this->response($msg, RestController::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 500,
+            ];
+            $this->response($msg, RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function delete_akun_get($password, $ids)
+    {
+        $id = urlencode($ids);
+        $pass = urlencode($password);
+        $users = $this->User_m->findFirst($id, 'user_id');
+        if (password_verify($pass, $users['password'])) {
+            $this->User_m->delete($id, 'user_id');
+            $this->session->unset_userdata('user_id', 'role');
+            $msg = [
+                'status' => 200,
+                'url' => base_url(),
+                'message' => 'Akun Berhasil Dihapus'
+            ];
+            $this->response($msg, RestController::HTTP_OK);
+        } else {
+            $msg = [
+                'status' => 400,
+                'message' => 'Password salah'
+            ];
+            $this->response($msg, RestController::HTTP_BAD_REQUEST);
+        }
     }
 }
 

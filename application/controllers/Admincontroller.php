@@ -16,6 +16,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property Herosection_m Herosection_m
  */
 
+
 class Admincontroller extends CI_Controller
 {
     public function __construct()
@@ -29,6 +30,8 @@ class Admincontroller extends CI_Controller
         $this->load->model('Seo_m');
         $this->load->model('Stock_m');
         $this->load->model('Herosection_m');
+
+        check_role();
     }
 
     public function index()
@@ -87,13 +90,15 @@ class Admincontroller extends CI_Controller
         $seo = $this->Seo_m->findFirst();
         $temp_email = $this->db->get_where('tbl_template_mail', ['template_email_id' => '1'])->row_array();
         $sender_email = $this->db->get('tbl_config_email')->row_array();
+        $data_favicon = $this->db->get_where('tbl_favicon', ['favicon_id' => '1'])->row_array();
         $data = [
             'title' => 'Setting',
             'page' => 'setting',
             'data_toko' => $data_toko,
             'data_seo' => $seo,
             'data_template_email' => $temp_email,
-            'data_sender_email' => $sender_email
+            'data_sender_email' => $sender_email,
+            'data_favicon' => $data_favicon
         ];
         $this->load->view('admin/main', $data);
     }
@@ -156,7 +161,7 @@ class Admincontroller extends CI_Controller
             'title' => 'Edit Produk',
             'page' => 'edit_produk',
             'products' => $products,
-            'kategories' => $kategpories
+            'kategories' => $kategpories,
         ];
         $this->load->view('admin/main', $data);
     }
