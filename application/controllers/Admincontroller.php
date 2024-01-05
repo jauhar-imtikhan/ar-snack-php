@@ -14,6 +14,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property Stock_m Stock_m
  * @property Db db
  * @property Herosection_m Herosection_m
+ * @property Iconfontawesome Iconfontawesome
  */
 
 
@@ -30,7 +31,7 @@ class Admincontroller extends CI_Controller
         $this->load->model('Seo_m');
         $this->load->model('Stock_m');
         $this->load->model('Herosection_m');
-
+        $this->load->library('iconfontawesome');
         check_role();
     }
 
@@ -223,6 +224,26 @@ class Admincontroller extends CI_Controller
             'title' => 'Hero Section',
             'page' => 'hero_section',
             'hero_section' => $data_hero_Section
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function social_link()
+    {
+
+        $data = [
+            'title' => 'Sosial Media Link',
+            'page' => 'social_link',
+        ];
+        $this->load->view('admin/main', $data);
+    }
+
+    public function social_link_edit()
+    {
+
+        $data = [
+            'title' => 'Sosial Media Link',
+            'page' => 'social_link_edit',
         ];
         $this->load->view('admin/main', $data);
     }

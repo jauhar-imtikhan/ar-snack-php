@@ -25,6 +25,8 @@ $route['admin/stock']['get'] = 'admincontroller/stock';
 $route['admin/wa_gateway']['get'] = 'admincontroller/wa';
 $route['admin/wa_gateway/auto_reply']['get'] = 'admincontroller/wa_auto_reply';
 $route['admin/hero_section']['get'] = 'admincontroller/hero_section';
+$route['admin/social_link']['get'] = 'admincontroller/social_link';
+$route['admin/social_link_edit']['get'] = 'admincontroller/social_link_edit';
 
 
 // Route Of Landingpage Produk
@@ -83,6 +85,8 @@ $route['admin/create_variant']['post'] = 'api/restadmincontroller/create_variant
 $route['admin/delete_variant/(:any)/(:any)']['post'] = 'api/restadmincontroller/delete_variant/$1/$2';
 $route['admin/update_variant']['post'] = 'api/restadmincontroller/update_variant';
 $route['admin/update_favicon']['post'] = 'api/restadmincontroller/update_favicon';
+$route['admin/get_icon/(:any)']['get'] = 'api/restadmincontroller/get_icon/$1';
+$route['admin/social_media_link']['post'] = 'api/restadmincontroller/upload_icon';
 
 
 // Route Of Auth Rest API

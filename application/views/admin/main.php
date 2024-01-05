@@ -34,7 +34,7 @@ $data_seo = $this->db->get_where('tbl_seo', ['seo_id' => '1'])->row_array();
     <link href="<?= base_url('assets/admin-') ?>assets/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<?= base_url('assets/admin-assets/libs') ?>/codemirror/codemirror.css">
     <link rel="stylesheet" href="<?= base_url('assets/admin-assets/libs') ?>/codemirror/theme/monokai.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 
 
@@ -221,6 +221,18 @@ $data_seo = $this->db->get_where('tbl_seo', ['seo_id' => '1'])->row_array();
             }
 
             return 'Rp ' + rupiah;
+        }
+
+        function debounce(func, delay) {
+            let timeoutId;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(function() {
+                    func.apply(context, args);
+                }, delay);
+            };
         }
     </script>
 </body>

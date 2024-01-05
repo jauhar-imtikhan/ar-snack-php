@@ -16,7 +16,8 @@
 		"chriskacerguis/codeigniter-restserver": "^3.1",
 		"cloudinary/cloudinary_php": "^2.12",
 		"phpuploader/phpfileuploader": "^1.0",
-		"midtrans/midtrans-php": "^2.5"
+		"midtrans/midtrans-php": "^2.5",
+		"khill/fontawesomephp": "~2.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

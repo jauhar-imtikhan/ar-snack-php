@@ -17,6 +17,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property Db db
  * @property Seo_m Seo_m
  * @property Herosection_m Herosection_m
+ * @property Iconfontawesome Iconfontawesome
  */
 
 class Restadmincontroller extends RestController
@@ -31,6 +32,7 @@ class Restadmincontroller extends RestController
         $this->load->model('Stock_m');
         $this->load->model('Seo_m');
         $this->load->model('Herosection_m');
+        $this->load->library('Iconfontawesome');
     }
     public function update_profile_post()
     {
@@ -1090,6 +1092,73 @@ class Restadmincontroller extends RestController
                 'message' => "Gagal mengupdate favicon"
             ];
             $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    public function get_icon_get($keyword)
+    {
+        $encodedUrl = urlencode($keyword);
+        $fonts = Iconfontawesome::getIcon($encodedUrl);
+        $result = [];
+
+        foreach ($fonts as $key => $font) {
+            $datas = [
+                'icon_id' => $key,
+                'icon_name' => $font
+            ];
+            array_push($result, $datas);
+        }
+        $this->response($result, Restcontroller::HTTP_OK);
+    }
+
+    public function upload_icon_post()
+    {
+
+        $config['upload_path'] = FCPATH . '/uploads/frontend/icon/';
+        $config['allowed_types'] = 'jpg|png|jpeg';
+        $config['max_size'] = 10000;
+        $config['encrypt_name'] = true;
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('icon')) {
+            $data = [
+                'social_link' => $this->input->post('sociallink', true),
+                'social_link_icon' => $this->input->post('socialicon', true),
+                'social_link_custom' => 'false'
+            ];
+            $this->db->insert('tbl_social_link', $data);
+            if ($this->db->affected_rows() > 0) {
+                $msg = [
+                    'status' => 200,
+                    'message' => "Berhasil menambahkan icon",
+                ];
+                $this->response($msg, Restcontroller::HTTP_OK);
+            } else {
+                $msg = [
+                    'status' => 500,
+                    'message' => "Gagal menambahkan icon",
+                ];
+                $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+            }
+        } else {
+            $data = [
+                'social_link' => $this->input->post('sociallink', true),
+                'social_link_icon' => $this->upload->data()['file_name'],
+                'social_link_custom' => 'true'
+            ];
+            $this->db->insert('tbl_social_link', $data);
+            if ($this->db->affected_rows() > 0) {
+                $msg = [
+                    'status' => 200,
+                    'message' => "Berhasil menambahkan icon"
+                ];
+                $this->response($msg, Restcontroller::HTTP_OK);
+            } else {
+                $msg = [
+                    'status' => 500,
+                    'message' => "Gagal menambahkan icon"
+                ];
+                $this->response($msg, Restcontroller::HTTP_INTERNAL_ERROR);
+            }
         }
     }
 }

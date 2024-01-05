@@ -55,6 +55,16 @@
             </a>
             <ul class="nav-second-level" aria-expanded="false">
                 <li><a href="<?= site_url('admin/hero_section') ?>">Hero Section</a></li>
+                <li><a href="javascript: void(0);">
+                        <i class="fas fa-chevron-right"></i>&nbsp;
+                        <span>Link Sosmed</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul>
+                        <li><a href="<?= site_url('admin/social_link') ?>">Tambah </a></li>
+                        <li><a href="<?= site_url('admin/social_link_edit') ?>">Edit </a></li>
+                    </ul>
+                </li>
             </ul>
         </li>
 
