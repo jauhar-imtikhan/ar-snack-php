@@ -38,15 +38,24 @@
         </div>
     </div>
 </div>
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-center text-danger" id="conn_server"></h3>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
-    const socket = io("http://api.arsnack.jnologi.my.id", {
+    const socket = io(<?= $_ENV['WA_SOCKET'] ?>, {
         transports: ['polling']
     });
 
     socket.on('connect', function() {
-        console.log('connected to server');
+        $('#conn_server').text('Server Sudah Terhubung')
     })
 
     socket.on('qr', function(qr) {
