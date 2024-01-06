@@ -36,6 +36,7 @@ $route['cart']['get'] = 'shopcontroller/cart';
 
 // Route Of Shop
 $route['produk/detail/(:any)']['get'] = 'shopcontroller/index/$1';
+$route['user/search']['get'] = 'shopcontroller/search_result';
 $route['user/account']['get'] = 'shopcontroller/account';
 
 // Route Of Shop Rest API

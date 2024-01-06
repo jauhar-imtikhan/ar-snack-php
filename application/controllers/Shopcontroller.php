@@ -9,6 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property User_m $User_m
  * @property Checkout_m $Checkout_m
  * @property Invoice_m $Invoice_m
+ * @property Db $db
  */
 
 
@@ -38,6 +39,23 @@ class Shopcontroller extends CI_Controller
             'data_seo' => $data_seo,
             'data_toko' => $data_toko,
             'product' => $data_produk,
+        ];
+        $this->load->view('shop/main', $data);
+    }
+
+    public function search_result()
+    {
+        $keyword = urlencode($_GET['keyword']);
+        $data_seo = $this->Seo_m->findFirst();
+        $data_toko = $this->Configtoko_m->findFirst('config_toko_id', '1');
+        $sql = "SELECT * FROM result_product WHERE nama_produk LIKE '%" . $keyword . "%'";
+        $data_product = $this->db->query($sql)->result_array();
+        $data = [
+            'title' => 'Hasil Pencarian',
+            'page' => 'search_result',
+            'data_seo' => $data_seo,
+            'data_toko' => $data_toko,
+            'data_product' => $data_product
         ];
         $this->load->view('shop/main', $data);
     }

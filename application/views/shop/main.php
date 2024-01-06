@@ -168,7 +168,7 @@ $data_favicon = $this->db->get_where('tbl_favicon', ['favicon_id' => '1'])->row_
                 </div>
                 <div class="modal-body" style="background: white;">
 
-                    <form action="<?= site_url('produk/') . $this->uri->segment(2) . '?keyword=' ?>" method="get" class="form-search-product">
+                    <form action="<?= site_url('user/search/') ?>" method="get" class="form-search-product">
                         <div class="form-group">
                             <div class="input-group">
                                 <input type="text" autofocus tabindex="1" placeholder="Cari..." name="keyword" id="" class="form-control">

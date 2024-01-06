@@ -78,7 +78,7 @@ $data_seo = $this->db->get_where('tbl_seo', ['seo_id' => '1'])->row_array();
                                     </div>
                                     <span class="text-danger password"></span>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="useroption">Daftar Sebagai</label>
                                     <div class="d-flex " style="gap: 10px;">
                                         <div class="form-group form-check">
@@ -91,7 +91,7 @@ $data_seo = $this->db->get_where('tbl_seo', ['seo_id' => '1'])->row_array();
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="text-center mb-3">
                                     <button id="btn-register" class="btn btn-primary btn-block" type="submit"> Daftar </button>
                                 </div>

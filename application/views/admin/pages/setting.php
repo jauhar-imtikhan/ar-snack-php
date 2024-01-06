@@ -264,10 +264,12 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        CodeMirror.fromTextArea(document.getElementById("faviconField"), {
-            mode: "htmlmixed",
-            theme: "monokai"
-        });
+        <?php if ($_GET['page'] == 'favicon') { ?>
+            CodeMirror.fromTextArea(document.getElementById("faviconField"), {
+                mode: "htmlmixed",
+                theme: "monokai"
+            });
+        <?php } ?>
         // previewTemplateEmail()
         $('#showapiemail').click(function() {
             if ($('#keyemail').attr('type') == 'password') {

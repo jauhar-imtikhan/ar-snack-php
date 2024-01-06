@@ -155,7 +155,7 @@ class Restauthcontroller extends RestController
                 'password' => password_hash($pass, PASSWORD_DEFAULT),
                 'created_at' => time(),
                 'status' => 0,
-                'role' => $role
+                'role' => 'user'
             ];
 
             $data_token = [
