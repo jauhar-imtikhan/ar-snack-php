@@ -32,4 +32,4 @@ jobs:
           server: 192.168.0.137
           username: ftuser
           password: Assword_123
-          server-dir: /var/www/arsnack
+          server-dir: /var/www/arsnack/
