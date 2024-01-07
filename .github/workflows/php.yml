@@ -29,7 +29,7 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: 192.168.0.137
+          server: newarsnack.jnologi.my.id
           username: ftuser
           password: Assword_123
           server-dir: /var/www/arsnack/
