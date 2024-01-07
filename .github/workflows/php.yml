@@ -29,7 +29,7 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ftp.jauharimtikhan.my.id
-          username: jauha915
-          password: -)SbXlz79mU31S
-          server-dir: /public_html/arsnack.staging.jauharimtikhan.my.id/
+          server: 192.168.0.137
+          username: ftuser
+          password: Assword_123
+          server-dir: /var/www/arsnack
