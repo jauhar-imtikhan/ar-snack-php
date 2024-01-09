@@ -94,4 +94,32 @@ class Pengiriman
             return $response;
         }
     }
+
+    public function webhook(array $field): string
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.biteship.com/",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_POSTFIELDS => $field,
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: ' . $_ENV['BITESHIP_API_KEY']
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        if (curl_error($curl)) {
+            return curl_error($curl);
+        } else {
+            return $response;
+        }
+    }
 }
