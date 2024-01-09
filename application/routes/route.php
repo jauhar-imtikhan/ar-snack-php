@@ -96,6 +96,9 @@ $route['register']['post'] = 'api/restauthcontroller/register';
 $route['verify']['post'] = 'api/restauthcontroller/verify';
 
 
+// Route Of Webhook API
+$route['webhook/biteship']['get'] = 'api/restwebhookapi/webhookBiteship';
+
 
 // Route Of Migrations
 $route['migration']['get'] = 'migrate';

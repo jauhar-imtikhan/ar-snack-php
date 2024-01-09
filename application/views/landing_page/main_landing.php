@@ -177,7 +177,7 @@
                             </div>
                         </a>
                         <a href="https://maps.app.goo.gl/cLcFf5TBiK9ig7o68" target="_blank" class="item-ico text-white" style="text-decoration: none;">
-                            <i class="fa fa-map-marker-alt" style="width: 29%;"></i>
+                            <i class="fa fa-map-marker-alt"></i>
                             <div class="ground-text">
                                 <span class="name">Alamat Toko Kami</span>
                                 <span class="des">Kwaron, Kec. Diwek, Kabupaten Jombang, Jawa Timur 61471</span>
